@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('music_sheet', 11)->nullable();
+            
             $table->longText('verses');
             $table->timestamps();
         });

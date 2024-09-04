@@ -43,7 +43,8 @@ class SongController extends Controller
 
     //view song + lyrics
     public function viewSong($id) {
-        return$song = Song::where('id', $id)->with('verses')->first();
+        return$song = Song::where('id', $id)->first();
+        return $song;
         return view('view-song', compact('song'));
     }
 
