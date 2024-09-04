@@ -28,5 +28,5 @@ Route::post('song/search', [SongController::class, 'searchSong']);
 
 Route::get('song/{id}', [SongController::class, 'viewSong']);
 Route::get('download', [SongController::class, 'download']);
-Route::get('vanila-download', [SongController::class, 'vanila_download']);
+Route::get('vanila-download/{id}', [SongController::class, 'vanila_download']);
 

@@ -17,30 +17,19 @@ class SongController extends Controller
 
             //save song title and author
             $song = new Song;
-            $info = [
+            $data = [
             'title' => $request->title,
-            'author' => $request->author
+            'author' => $request->author,
+            'verses' => $request->verses
             ];
 
-             $saved_song = $song->create($info);
+             $saved_song = $song->create($data);
             //prepare verses
             $verses = explode('<p><br></p>', $request->verse);
+
+            return back()->with('success', 'lyrics added successfully!');
             // return $verses;
             // array_shift($verses);
-                
-            if ($saved_song) {
-                $verse_number = 0;
-                foreach($verses as $verse) {
-                    $verse_number++;
-                    $saved_song->verses()->create([
-                        "verse"=> $verse_number,
-                        "lyric"=> $verse
-                    ]);
-                }
-
-                return "song and lyrics added!";
-
-            }
         } catch (Throwable $exception) {
             return $exception->getMessage();
         }
@@ -92,7 +81,7 @@ class SongController extends Controller
 
     public function download() {
 
-        $song = Song::where('id', 104)->with('lyrics')->first();
+        $song = Song::where('id', 1)->first();
 
         // return htmlspecialchars($song->lyrics[0]->lyric);
         //Creating new document...
@@ -106,7 +95,7 @@ class SongController extends Controller
         $section->addText($song->title,
     array('name' => 'Tahoma', 'size' => 20, 'bold'=>true)
         );
-        $section->addHTML($song->lyrics[0]->lyric,
+        $section->addHTML($song->verses,
     array('name' => 'Tahoma', 'size' => 20)
         );
 
@@ -139,7 +128,7 @@ class SongController extends Controller
     }
 
     public function vanila_download ($id) {
-        $song = Song::where('id', $id)->with('lyrics')->first();
+        $song = Song::where('id', $id)->first();
 
         header("Content-type: application/vnd.ms-word");
         header("Content-Disposition: attachment;Filename=LYRIC.doc");
@@ -154,11 +143,8 @@ class SongController extends Controller
         echo '</head>';
         echo '<body>';
         echo'<h1>'.$song->title.'</h1>';
-        foreach($song->lyrics as $verse){
             
-            echo $verse->lyric .'</br> </br></br>';
-        }
-        echo $song->lyrics[0]->lyric;
+            echo $song->verses .'</br> </br></br>';
         echo '</body>';
         echo '</html>';
         

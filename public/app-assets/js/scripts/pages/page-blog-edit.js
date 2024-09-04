@@ -102,6 +102,13 @@
     theme: 'snow'
   });
 
+  document.getElementById('lyrics').addEventListener('submit', function(event){
+    var content = document.getElementById('verses')
+    content.value = blogEditor.root.innerHTML
+    console.log(blogEditor.root.innerHTML)
+  })
+  console.log('amazing')
+
   // Change featured image
   if (blogImageInput.length) {
     $(blogImageInput).on('change', function (e) {
@@ -117,3 +124,5 @@
     });
   }
 })(window, document, jQuery);
+
+
