@@ -20,4 +20,4 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@3.87.141.188 "cd /var/www/html/church_lyrics && git pull origin master && composer install --no-interaction --prefer-dist --optimize-autoloader && php artisan migrate --force"
+        ssh -o StrictHostKeyChecking=no ubuntu@3.87.141.188 "cd /var/www/html/church_lyrics && sudo git pull origin master && sudo composer install --no-interaction --prefer-dist --optimize-autoloader && sudo php artisan migrate --force"
