@@ -18,15 +18,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing');
 });
-
-Route::get('/song/add', function () {
-    return view('add-song');
+Route::get('/search', function () {
+    return view('search-results');
 });
-Route::post('/song/add', [SongController::class, 'addSong']);
+Route::get('/details', function () {
+    return view('lyric-details');
+});
 
-Route::post('song/search', [SongController::class, 'searchSong']);
+Route::get('/lyric', [SongController::class, 'create']);
+Route::post('/lyric', [SongController::class, 'addSong']);
+Route::get('/lyrics', [SongController::class, 'index']);
 
-Route::get('song/{id}', [SongController::class, 'viewSong']);
+Route::post('lyrics/search', [SongController::class, 'searchSong']);
+
+Route::get('lyric/{id}', [SongController::class, 'viewSong']);
 Route::get('download', [SongController::class, 'download']);
-Route::get('vanila-download/{id}', [SongController::class, 'vanila_download']);
+Route::get('lyric/download/{id}', [SongController::class, 'single_download']);
+Route::get('lyric/collection/download/{id}', [SongController::class, 'collection_download']);
 

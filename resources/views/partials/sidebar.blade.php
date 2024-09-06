@@ -25,7 +25,7 @@
                                     </g>
                                 </g>
                             </svg></span>
-                        <h2 class="brand-text">KSMWASD</h2>
+                        <h2 class="brand-text">LIT-LYRICS</h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
             </ul>
@@ -37,23 +37,22 @@
                 </li>
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Publication</span><i data-feather="more-horizontal"></i>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Blog</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Lyrics</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="/create-blog"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        <li><a class="d-flex align-items-center" href="/lyric"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                           
+                        </li>
+                        <li><a class="d-flex align-items-center" href="/lyrics"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
                            
                         </li>
                     </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Event</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Music Sheet</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="/create-event"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
                            
                         </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Press Release</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="/create-press-release"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
                            
                         </li>
                     </ul>
@@ -62,60 +61,12 @@
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="ui-typography.html"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Typography</span></a>
                 </li>-->
-                <li class=" navigation-header"><span data-i18n="User Interface">Media</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Images</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Gallery</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="/image/create"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add Image</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Videos</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Gallery</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="/video/create"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add Video</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
-
-                <li class=" navigation-header"><span data-i18n="User Interface">User</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Staff</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="staff"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Staff List</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="/staff/create"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add Staff</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Users</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="/users"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">User List</span></a>
                            
                         </li>
                         <li><a class="d-flex align-items-center" href="/register"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add User</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
-
-                <li class=" navigation-header"><span data-i18n="User Interface">Reports</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Official Reports</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View Reports</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="/report/create"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Upload Report</span></a>
                            
                         </li>
                     </ul>

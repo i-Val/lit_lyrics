@@ -11,6 +11,14 @@ use Throwable;
 
 class SongController extends Controller
 {
+    public function index() {
+        $songs = Song::where('id', '>', 0)->get();
+        return view('lyrics-table', compact('songs'));
+    }
+
+    public function create() {
+        return view('add-song');
+    }
     //add song + lyrics
     public function addSong(Request $request) {
         try{
@@ -37,15 +45,14 @@ class SongController extends Controller
 
     //search song 
     public function searchSong(Request $request) {
-        return $song = Song::where('title', 'LIKE', '%'.$request->search_query.'%')->get();
-        return view('search-result', compact('song'));
+         $songs = Song::where('title', 'LIKE', '%'.$request->search_query.'%')->get();
+        return view('search-results', compact('songs'));
     }
 
     //view song + lyrics
     public function viewSong($id) {
-        return$song = Song::where('id', $id)->first();
-        return $song;
-        return view('view-song', compact('song'));
+        $song = Song::where('id', $id)->first();
+        return view('lyric-details', compact('song'));
     }
 
 
@@ -128,7 +135,7 @@ class SongController extends Controller
         echo $wordContent;*/
     }
 
-    public function vanila_download ($id) {
+    public function single_download ($id) {
         $song = Song::where('id', $id)->first();
 
         header("Content-type: application/vnd.ms-word");
@@ -149,6 +156,10 @@ class SongController extends Controller
         echo '</body>';
         echo '</html>';
         
+    }
+
+    public function collection_download() {
+        return 'this feature is under construction. stay tuned!';
     }
 
     //delete song + lyrics
