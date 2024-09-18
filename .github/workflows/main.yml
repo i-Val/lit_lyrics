@@ -20,4 +20,4 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@44.213.143.205 "cd /var/www/html/lit_lyrics && sudo git pull origin master && sudo composer install --no-interaction --prefer-dist --optimize-autoloader && sudo php artisan migrate --force"
+        ssh -o StrictHostKeyChecking=no ubuntu@ec2-44-213-143-205.compute-1.amazonaws.com "cd /var/www/html/lit_lyrics && sudo git pull origin master && sudo composer install --no-interaction --prefer-dist --optimize-autoloader && sudo php artisan migrate --force"
