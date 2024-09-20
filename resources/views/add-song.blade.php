@@ -34,6 +34,7 @@
                 <div class="blog-edit-wrapper">
                     <div class="row">
                         <div class="col-12">
+                        @include('partials.alert')
                             <div class="card">
                                 <div class="card-body">
                                     <div class="media">
@@ -46,7 +47,7 @@
                                         </div>
                                     </div>
                                     <!-- Form -->
-                                    <form action="/song/add" method="post" enctype="multipart/form-data" class="mt-2" id="lyrics">
+                                    <form action="/lyric" method="post" enctype="multipart/form-data" class="mt-2" id="lyrics">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6 col-12">

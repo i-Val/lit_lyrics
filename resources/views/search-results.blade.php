@@ -12,10 +12,9 @@
 
                 <div class="col-3">
                     <div class="section-heading">
-                        <h3>SUCCESS</h3>
-                        <h2 class="section-title">How We Help You To Sell Your Product</h2>
-                        <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!</p>
+                        <h3>Search Results For</h3>
+                        <h2 class="section-title">"{{$search_term}}"</h2>
+                        <p class="section-subtitle"></p>
                     </div>
 
                 </div>

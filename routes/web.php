@@ -34,5 +34,5 @@ Route::post('lyrics/search', [SongController::class, 'searchSong']);
 Route::get('lyric/{id}', [SongController::class, 'viewSong']);
 Route::get('download', [SongController::class, 'download']);
 Route::get('lyric/download/{id}', [SongController::class, 'single_download']);
-Route::get('lyric/collection/download/{id}', [SongController::class, 'collection_download']);
+Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
 

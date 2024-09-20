@@ -79,11 +79,6 @@
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" title="Google+" href="http://google.com/+username">
-                                    <i class="fa fa-google-plus fa-1x"></i><span>Google+</span>
-                                </a>
-                            </li>
-                            <li>
                                 <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
                                     <i class="fa fa-twitter fa-1x"></i><span>Twitter</span>
                                 </a>
@@ -91,11 +86,6 @@
                             <li>
                                 <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
                                     <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a target="_blank" title="behance" href="http://www.behance.net">
-                                    <i class="fa fa-behance fa-1x"></i><span>Behance</span>
                                 </a>
                             </li>
                         </ul>
@@ -107,12 +97,12 @@
                     <nav id="nav-main">
                         <ul>
                             <li>
-                                <a href="#banner">Home</a>
+                                <a href="/">Home</a>
                             </li>
                             <li>
                                 <a href="#about">About</a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="#gallery">Gallery</a>
                             </li>
                             <li>
@@ -123,9 +113,9 @@
                             </li>
                             <li>
                                 <a href="#clients">Clients</a>
-                            </li>
+                            </li>-->
                             <li>
-                                <a href="#pricing">Pricing</a>
+                                <a href="#pricing">API Docs</a>
                             </li>
                         </ul>
                     </nav>
@@ -143,18 +133,13 @@
  <footer id="landing-footer" class="clearfix">
         <div class="row clearfix">
 
-            <p id="copyright" class="col-2">Made with love by <a href="https://www.shapingrain.com">ShapingRain</a></p>
+            <p id="copyright" class="col-2">Made with love by <a href="/">ShapingRain</a></p>
 
             <!--Social Icons in Footer-->
             <ul class="col-2 social-icons">
                 <li>
                     <a target="_blank" title="Facebook" href="https://www.facebook.com/username">
                         <i class="fa fa-facebook fa-1x"></i><span>Facebook</span>
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" title="Google+" href="http://google.com/+username">
-                        <i class="fa fa-google-plus fa-1x"></i><span>Google+</span>
                     </a>
                 </li>
                 <li>
@@ -165,11 +150,6 @@
                 <li>
                     <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
                         <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" title="behance" href="http://www.behance.net">
-                        <i class="fa fa-behance fa-1x"></i><span>Behance</span>
                     </a>
                 </li>
             </ul>

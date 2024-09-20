@@ -46,7 +46,8 @@ class SongController extends Controller
     //search song 
     public function searchSong(Request $request) {
          $songs = Song::where('title', 'LIKE', '%'.$request->search_query.'%')->get();
-        return view('search-results', compact('songs'));
+         $search_term = $request->search_query;
+        return view('search-results', compact('songs', 'search_term'));
     }
 
     //view song + lyrics
@@ -139,7 +140,7 @@ class SongController extends Controller
         $song = Song::where('id', $id)->first();
 
         header("Content-type: application/vnd.ms-word");
-        header("Content-Disposition: attachment;Filename=LYRIC.doc");
+        header("Content-Disposition: attachment;Filename=.$song->title.doc");
         header("Pragma: no-cache");
         header("Express: 0");
         echo '<!DOCTYPE html>';
@@ -155,11 +156,108 @@ class SongController extends Controller
             echo $song->verses .'</br> </br></br>';
         echo '</body>';
         echo '</html>';
+
+        $filePath = 'word_export.doc';
+
+// Save the content to the Word file
+    file_put_contents($filePath, $wordContent);
         
     }
 
-    public function collection_download() {
-        return 'this feature is under construction. stay tuned!';
+    public function collection_download(Request $request) {
+        // return 'this feature is under construction. stay tuned!';
+
+            $entrance = Song::where('title', $request->entrance)->first();
+            $kyrie = Song::where('title', $request->kyrie)->first();
+            $gloria = Song::where('title', $request->gloria)->first();
+            $creed = Song::where('title', $request->creed)->first();
+            $offertory = Song::where('title', $request->offertory)->first();
+            $communion = Song::where('title', $request->communion)->first();
+            $consecration = Song::where('title', $request->consecration)->first();
+            $dismissal = Song::where('title', $request->dismissal)->first();
+
+            header("Content-type: application/vnd.ms-word");
+            header("Content-Disposition: attachment;Filename=Selection for Sunday.doc");
+            header("Pragma: no-cache");
+            header("Express: 0");
+            echo '<!DOCTYPE html>';
+            echo '<html lang="en">';
+            echo '<head>';
+            echo  '<meta charset="UTF-8">';
+            echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+            echo '<title>Document</title>';
+            echo '</head>';
+            echo '<body>';
+            if($entrance!=null){
+                echo'<h1>Entrance:</h1>';
+                echo'<h1>'.$entrance->title.'</h1>';
+                
+                echo $entrance->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Entrance:Record Not Found</h1>';
+            }
+            if($kyrie!=null){
+                echo'<h1>Kyrie:</h1>';
+                echo'<h1>'.$kyrie->title.'</h1>';
+                
+                echo $kyrie->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Kyrie:Record Not Found</h1>';
+            }
+            if($gloria!=null){
+                echo'<h1>Gloria:</h1>';
+                echo'<h1>'.$gloria->title.'</h1>';
+                
+                echo $gloria->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Gloria:Record Not Found</h1>';
+            }
+            if($creed!=null){
+                echo'<h1>Creed:</h1>';
+                echo'<h1>'.$creed->title.'</h1>';
+                
+                echo $creed->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Creed:Record Not Found</h1>';
+            }
+            if($offertory!=null){
+                echo'<h1>Offertory:</h1>';
+                echo'<h1>'.$offertory->title.'</h1>';
+                
+                echo $offertory->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Offertory:Record Not Found</h1>';
+            }
+            if($consecration!=null){
+                echo'<h1>Consecration:</h1>';
+                echo'<h1>'.$consecration->title.'</h1>';
+                
+                echo $consecration->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Consecration:Record Not Found</h1>';
+            }
+            if($communion!=null){
+                echo'<h1>Communion:</h1>';
+                echo'<h1>'.$communion->title.'</h1>';
+                
+                echo $communion->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Communion:Record Not Found</h1>';
+            }
+            if($dismissal!=null){
+                echo'<h1>Dismissal:</h1>';
+                echo'<h1>'.$dismissal->title.'</h1>';
+                
+                echo $dismissal->verses .'</br> </br></br>';
+            }else{
+                echo'<h1>Dismissal:Record Not Found</h1>';
+            }
+            echo '</body>';
+            echo '</html>';
+
+
+       
+           
     }
 
     //delete song + lyrics

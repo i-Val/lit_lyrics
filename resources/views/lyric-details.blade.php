@@ -30,7 +30,7 @@
                 <!--Content of the Right Side-->
                 <div class="col-3">
                     <div class="section-heading">
-                        <h3>BELIEVING</h3>
+                        <!--<h3>BELIEVING</h3>-->
                         <h2 class="section-title">{{$song->title}}</h2>
                         <p class="section-subtitle">By {{$song->author}}</p>
                     </div>
@@ -43,7 +43,7 @@
                 <!--End Content Right Side-->
 
                 <div class="col-3">
-                    <img src="images/dancer.jpg" alt="Dancer"/>
+                    <img src="/landing/images/dancer.jpg" alt="Dancer"/>
                 </div>
 
             </div>
