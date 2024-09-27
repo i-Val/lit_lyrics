@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Song;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Throwable;
 
 class TwitterBotController extends Controller
 {
     public function get_lyrics(Request $request){
+        try{
         $update = $request->all();
 
         if(isset($update['message'])) {
@@ -18,16 +20,31 @@ class TwitterBotController extends Controller
             $chatId = $input['chat']['id'];
             $userInput = $input['text'];
 
-            $song = Song::where('title', 'LIKE', "%$userInput%")->first();
+            $songs = Song::where('title', 'LIKE', "%$userInput%")->first();
+
+            if($songs){
+                $song =$songs;
+            }else{
+                $song = 'no records found!';
+            }
 
             $client = new Client();
 
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
-                    'text'=> "asdfghjkl"
+                    'text'=> $song
                 ]
             ]);
         }
+    }catch(Throwable $error) {
+        $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            'json'=>[
+                'chat_id'=>$chatId,
+                'text'=> $error->getMessage()
+            ]
+        ]);
     }
+    }
+    
 }
