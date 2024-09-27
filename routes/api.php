@@ -22,4 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('song/search', [SongController::class, 'searchSong']);
 Route::get('song/{id}', [SongController::class, 'viewSong']);
-Route::get('lyric', [TwitterBotController::class, 'get_lyrics']);
+Route::post('lyric', [TwitterBotController::class, 'get_lyrics']);
