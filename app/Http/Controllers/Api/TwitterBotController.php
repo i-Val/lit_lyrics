@@ -22,7 +22,7 @@ class TwitterBotController extends Controller
 
             $client = new Client();
 
-            $client->post(" ", [
+            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
                     'text'=> 'we are searchin for the said song...'
