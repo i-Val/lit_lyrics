@@ -20,7 +20,7 @@ class TwitterBotController extends Controller
             $chatId = $input['chat']['id'];
             $userInput = $input['text'];
 
-            $songs = Song::where('title', 'LIKE', "%$userInput%")->first();
+            $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->first();
 
             if($songs){
                 $song =$songs;
