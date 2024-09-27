@@ -35,6 +35,18 @@ class TwitterBotController extends Controller
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
+                    'text'=> "Title: $songs->title"
+                ]
+            ]);
+            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                'json'=>[
+                    'chat_id'=>$chatId,
+                    'text'=> $songs->author?"Author:$songs->author":"Author: pending"
+                ]
+            ]);
+            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                'json'=>[
+                    'chat_id'=>$chatId,
                     'text'=> $song
                 ]
             ]);
