@@ -23,7 +23,9 @@ class TwitterBotController extends Controller
             $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->first();
 
             if($songs){
-                $song =$songs;
+                $song =str_replace("<p>", "\n",$songs->verses);
+                $song =str_replace("<br>", "\n\n",$song);
+                $song =str_replace("</p>", " ",$song);
             }else{
                 $song = 'no records found!';
             }
