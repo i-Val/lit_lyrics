@@ -58,6 +58,12 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
+                                                    <label for="blog-edit-title">Tag</label>
+                                                    <input type="text" name="category" id="blog-edit-title" class="form-control" placeholder="Part of mass..." />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group mb-2">
                                                     <label for="blog-edit-slug">Author</label>
                                                     <input type="text" id="blog-edit-slug" name="author" class="form-control" placeholder="Author..." />
                                                 </div>

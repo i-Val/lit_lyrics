@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\Api\TwitterBotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('song/search', [SongController::class, 'searchSong']);
 Route::get('song/{id}', [SongController::class, 'viewSong']);
+Route::get('lyric', [TwitterBotController::class, 'get_lyrics']);

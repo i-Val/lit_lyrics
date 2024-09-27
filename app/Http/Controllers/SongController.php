@@ -28,7 +28,8 @@ class SongController extends Controller
             $data = [
             'title' => $request->title,
             'author' => $request->author,
-            'verses' => $request->verses
+            'verses' => $request->verses,
+            'category' => $request->category,
             ];
 
              $saved_song = $song->create($data);
@@ -157,10 +158,10 @@ class SongController extends Controller
         echo '</body>';
         echo '</html>';
 
-        $filePath = 'word_export.doc';
+        // $filePath = 'word_export.doc';
 
 // Save the content to the Word file
-    file_put_contents($filePath, $wordContent);
+    // file_put_contents($filePath, $wordContent);
         
     }
 
@@ -258,6 +259,10 @@ class SongController extends Controller
 
        
            
+    }
+
+    public function collection_form () {
+        return view('collection-form');
     }
 
     //delete song + lyrics
