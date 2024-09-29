@@ -12,18 +12,18 @@ use App\Helpers\TelegramBotRequestHelper;
 class TwitterBotController extends Controller
 {
     public function get_lyrics(Request $request){
-        // $update=$request->all();
-        // if(isset($update['message'])) {
-        //  return TelegramBotRequestHelper::sendSearchResults($request);
-        // }else{
-        //     return 'there was an issue!';
-        // }
+        $update=$request->all();
+        if(isset($update['message'])) {
+         return TelegramBotRequestHelper::sendSearchResults($request);
+        }else{
+            return 'there was an issue!';
+        }
 
-        // if(isset($request->callback_query->data)) {
-            return TelegramBotRequestHelper::sendSearchResults($request);
-        //    }else{
-        //        return 'there was an issue!';
-        //    }
+        if(isset($request->callback_query->data)) {
+            return TelegramBotRequestHelper::sendMusicLyric($request);
+           }else{
+               return 'there was an issue!';
+           }
    
     }
     
