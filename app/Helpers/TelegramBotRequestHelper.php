@@ -88,8 +88,9 @@ class TelegramBotRequestHelper {
             $update = $request->all();
                 $input = $update['callback_query'];
     
-                $chatId = $input['chat']['id'];
+                $message = $update['message'];
                 $userInput = $input['data'];
+                $chatId = $message['chat']['id'];
     
                 $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->first();
     
