@@ -88,7 +88,7 @@ class TelegramBotRequestHelper {
             $update = $request->all();
                 $input = $update['callback_query'];
     
-                $message = $update['message'];
+                $message = $update['callback_query']['message'];
                 $userInput = $input['data'];
                 $chatId = $message['chat']['id'];
     
