@@ -17,6 +17,8 @@ class Song extends Model
         return $this->hasMany(Lyric::class, 'song_id', 'id');
     }
 
+    
+
     public static function boot() {
         parent::boot();
 
