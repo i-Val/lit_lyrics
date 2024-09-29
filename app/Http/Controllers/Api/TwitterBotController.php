@@ -23,7 +23,7 @@ class TwitterBotController extends Controller
             return TelegramBotRequestHelper::sendMusicLyric($request);
            }else{
             $update = $request->all();
-            $input = $update['message'];
+            $input = $update['callback_query']['message'];
     
                 $chatId = $input['chat']['id'];
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
