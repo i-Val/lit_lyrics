@@ -85,12 +85,10 @@ class TelegramBotRequestHelper {
 
     public static function sendMusicLyric($request) {
         try{
-            $update = $request->all();
-                $input = $update['callback_query'];
+                $input = $request->callback_query->data;
     
-                $message = $update['callback_query']['message'];
-                $userInput = $input['data'];
-                $chatId = $message['chat']['id'];
+                $userInput = $input;
+                $chatId = $request->callback_query->message->chat->id;
     
                 $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->first();
     
