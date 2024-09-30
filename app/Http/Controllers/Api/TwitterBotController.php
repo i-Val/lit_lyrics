@@ -19,13 +19,12 @@ class TwitterBotController extends Controller
             return 'there was an issue!';
         }
 
-        if(isset($request->callback_query->data)) {
+        if(isset($request->callback_query)) {
             return TelegramBotRequestHelper::sendMusicLyric($request);
            }else{
-            $update = $request->all();
-            $input = $update['callback_query']['message'];
+            $input = $request->callback_query->message->chat->id;
     
-                $chatId = $input['chat']['id'];
+                $chatId = $input;
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
