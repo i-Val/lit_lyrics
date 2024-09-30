@@ -29,7 +29,7 @@ class TwitterBotController extends Controller
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
-                    'text'=> $request->callback_query->data
+                    'text'=> "seen"
                 ]
             ]);
            }
