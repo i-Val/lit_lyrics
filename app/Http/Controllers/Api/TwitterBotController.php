@@ -19,7 +19,7 @@ class TwitterBotController extends Controller
             return 'there was an issue!';
         }
 
-        if(isset($request->callback_query->data)) {
+        if(isset($update['callback_query'])) {
             return TelegramBotRequestHelper::sendMusicLyric($request);
            }else{
             $update = $request->all();
