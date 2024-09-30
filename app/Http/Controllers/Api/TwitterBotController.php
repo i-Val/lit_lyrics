@@ -22,7 +22,7 @@ class TwitterBotController extends Controller
         if(isset($request->callback_query)) {
         //     return TelegramBotRequestHelper::sendMusicLyric($request);
         //    }else{
-            $input = $request->callback_query->message->chat->id;
+            $input = $request->callback_querys->message->chat->id;
             $client = new Client();
     
                 $chatId = $input;
