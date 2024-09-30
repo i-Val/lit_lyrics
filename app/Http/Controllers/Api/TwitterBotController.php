@@ -18,8 +18,28 @@ class TwitterBotController extends Controller
         }else{
             return 'there was an issue!';
         }
+        $input = $request->callback_query->message->chat->id;
+        $client = new Client();
+
+            $chatId = $input;
+        $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            'json'=>[
+                'chat_id'=>$chatId,
+                'text'=> $request
+            ]
+        ]);
 
         if(isset($request->callback_query)) {
+            $input = $request->callback_query->message->chat->id;
+            $client = new Client();
+    
+                $chatId = $input;
+            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                'json'=>[
+                    'chat_id'=>$chatId,
+                    'text'=> $request
+                ]
+            ]);
             return TelegramBotRequestHelper::sendMusicLyric($request);
            }else{
             $input = $request->callback_query->message->chat->id;
