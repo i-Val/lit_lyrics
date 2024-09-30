@@ -90,7 +90,7 @@ class TelegramBotRequestHelper {
                 $userInput = $input;
                 $chatId = $request->callback_query->message->chat->id;
     
-                $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->first();
+                $songs = Song::where('id',$userInput)->first();
     
                 if($songs){
                     $song =str_replace("<p>", "\n",$songs->verses);
