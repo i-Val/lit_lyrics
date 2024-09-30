@@ -15,8 +15,6 @@ class TwitterBotController extends Controller
         $update=$request->all();
         if(isset($update['message'])) {
          return TelegramBotRequestHelper::sendSearchResults($request);
-        }else{
-            return 'there was an issue!';
         }
 
         if(isset($update['callback_query'])) {
@@ -24,6 +22,7 @@ class TwitterBotController extends Controller
            }else{
             $update = $request->all();
             $input = $request->callback_query->message;
+            $client = new Client();
     
                 $chatId = $input['chat']['id'];
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
