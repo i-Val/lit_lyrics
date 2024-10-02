@@ -109,6 +109,30 @@ class TelegramBotRequestHelper {
                         'text'=> $song
                     ]
                 ]);
+
+                if ($songs->music_sheet !=null) {
+                    $inlineKeyboard = [
+                        [
+                            ['text' => "Download score", 'callback_data' => "$songs->music_sheet"]
+                        ],
+                    ];
+
+                    $replyMarkup = [
+                        'inline_keyboard' => $inlineKeyboard
+                    ];
+
+                    $data = [
+                        'chat_id' => $chatId,
+                        'text' => "Please choose an option:",
+                        'reply_markup' => json_encode($replyMarkup)
+                    ];
+    
+                    
+        
+                    $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                        'json'=>$data
+                    ]);
+                }
         }catch(Throwable $error) {
             $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                 'json'=>[
