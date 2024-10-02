@@ -118,4 +118,44 @@ class TelegramBotRequestHelper {
             ]);
         }
     }
+
+
+
+    public static function sendFileToUser($request) {
+        try {
+            $update = $request->all();
+            $input = $update['callback_query']['data'];
+
+            $filePath = $input;
+
+            $chatId = $update['callback_query']['message']['chat']['id'];
+
+            $token = "7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g";
+            $url = "https://api.telegram.org/bot{$token}/sendDocument";
+            $client = new Client();
+
+        
+                $client->post($url, [
+                    'multipart' => [
+                        [
+                            'name'     => 'chat_id',
+                            'contents' => $chatId
+                        ],
+                        [
+                            'name'     => 'document',
+                            'contents' => fopen($filePath, 'r'),
+                            'filename' => basename($filePath) 
+                        ]
+                    ]
+                ]);
+        } catch (Throwable $error) {
+            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                'json'=>[
+                    'chat_id'=>$chatId,
+                    'text'=> $error->getMessage()
+                ]
+            ]);
+        }
+    }
+
 }

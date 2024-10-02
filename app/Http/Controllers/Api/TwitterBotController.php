@@ -17,6 +17,12 @@ class TwitterBotController extends Controller
          return TelegramBotRequestHelper::sendSearchResults($request);
         }
 
+        
+        if (strpos($update['callback_query']['data'], 'music-sheets') !== false) {
+            // The callback_data contains "music-sheets"
+            return TelegramBotRequestHelper::sendFileToUser($request);
+        }
+
         if(isset($update['callback_query'])) {
             return TelegramBotRequestHelper::sendMusicLyric($request); 
            }else{
