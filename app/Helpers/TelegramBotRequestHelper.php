@@ -9,6 +9,7 @@ class TelegramBotRequestHelper {
     public static function sendSearchResults($request){
          
         try{
+            $client = new Client();
             $update = $request->all();
                 $input = $update['message'];
     
@@ -17,34 +18,7 @@ class TelegramBotRequestHelper {
     
                 $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->get();
     
-                // if($songs){
-                //     $song =str_replace("<p>", "\n",$songs->verses);
-                //     $song =str_replace("<br>", "\n\n",$song);
-                //     $song =str_replace("</p>", " ",$song);
-                // }else{
-                //     $song = 'no records found!';
-                // }
-    
-                // $client = new Client();
-    
-                // $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
-                //     'json'=>[
-                //         'chat_id'=>$chatId,
-                //         'text'=> "Title: $songs->title"
-                //     ]
-                // ]);
-                // $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
-                //     'json'=>[
-                //         'chat_id'=>$chatId,
-                //         'text'=> $songs->author?"Author:$songs->author":"Author: pending"
-                //     ]
-                // ]);
-                // $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
-                //     'json'=>[
-                //         'chat_id'=>$chatId,
-                //         'text'=> $song
-                //     ]
-                // ]);
+                if ($songs != null) {
 
                 $inlineKeyboard = [
                     [
@@ -53,7 +27,7 @@ class TelegramBotRequestHelper {
                 ];
 
                 foreach($songs as $song) {
-                    array_push($inlineKeyboard[0], ['text' => "$song->title by $song->author", 'callback_data' => "$song->id"]);
+                    array_push($inlineKeyboard[0], [['text' => "$song->title by $song->author", 'callback_data' => "$song->id"]]);
                     }
                 
                 $replyMarkup = [
@@ -66,11 +40,25 @@ class TelegramBotRequestHelper {
                     'reply_markup' => json_encode($replyMarkup)
                 ];
 
-                $client = new Client();
+                
     
                 $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
                     'json'=>$data
                 ]);
+            }else {
+                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                    'json'=>[
+                        'chat_id'=>$chatId,
+                        'text'=> "we don't have that in out database"
+                    ]
+                ]);
+                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                    'json'=>[
+                        'chat_id'=>$chatId,
+                        'text'=> "Contact Iwuchukwu Valentine via: valentineiwuchukwu@outlook.com"
+                    ]
+                ]);
+            }
                 
                 
         }catch(Throwable $error) {
