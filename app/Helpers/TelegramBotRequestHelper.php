@@ -20,14 +20,10 @@ class TelegramBotRequestHelper {
     
                 if ($songs != null) {
 
-                $inlineKeyboard = [
-                    [
-                       
-                    ],
-                ];
+                $inlineKeyboard = [];
 
                 foreach($songs as $song) {
-                    array_push($inlineKeyboard[0], [['text' => "$song->title by $song->author", 'callback_data' => "$song->id"]]);
+                    array_push($inlineKeyboard, [['text' => "$song->title by $song->author", 'callback_data' => "$song->id"]]);
                     }
                 
                 $replyMarkup = [
