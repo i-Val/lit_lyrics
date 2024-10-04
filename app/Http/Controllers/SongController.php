@@ -25,16 +25,39 @@ class SongController extends Controller
 
             //save song title and author
             $song = new Song;
+
+            if($request->file('score') != null){
+
+             $image_name = $request->file('score')->getClientOriginalName();
+            
             $data = [
             'title' => $request->title,
             'author' => $request->author,
             'verses' => $request->verses,
+            'music_sheet' => "public/music-sheets/$image_name",
             'category' => $request->category,
             ];
+            
+            }else{
+                $data = [
+                    'title' => $request->title,
+                    'author' => $request->author,
+                    'verses' => $request->verses,
+                    'category' => $request->category,
+                    ];
+            }
+
+            
 
              $saved_song = $song->create($data);
             //prepare verses
             $verses = explode('<p><br></p>', $request->verse);
+
+            if ($saved_song && $request->file('score') != null) {
+                $request->file('score')->storeAs(
+                    'public/music-sheets', $image_name
+                );
+            }
 
             return back()->with('success', 'lyrics added successfully!');
             // return $verses;
