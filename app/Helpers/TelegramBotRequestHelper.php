@@ -109,7 +109,7 @@ class TelegramBotRequestHelper {
                 if ($songs->music_sheet !=null) {
                     $inlineKeyboard = [
                         [
-                            ['text' => "Download score", 'callback_data' => "$songs->music_sheet"]
+                            ['text' => "Yes, dowload file!", 'callback_data' => "$songs->music_sheet"]
                         ],
                     ];
 
@@ -119,7 +119,7 @@ class TelegramBotRequestHelper {
 
                     $data = [
                         'chat_id' => $chatId,
-                        'text' => "Please choose an option:",
+                        'text' => "Do you wish to download the music score?:",
                         'reply_markup' => json_encode($replyMarkup)
                     ];
     
