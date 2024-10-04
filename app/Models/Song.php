@@ -10,7 +10,7 @@ class Song extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'author','verses', 'category'
+        'title', 'author','verses', 'category','music_sheet'
     ];
 
     public function lyrics () {

@@ -81,7 +81,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 mb-2">
-                                                <!--<div class="border rounded p-2">
+                                                <div class="border rounded p-2">
                                                     <h4 class="mb-1">Featured Image</h4>
                                                     <div class="media flex-column flex-md-row">
                                                         <img src="{{asset('app-assets/images/slider/03.jpg')}}" id="blog-feature-image" class="rounded mr-2 mb-1 mb-md-0" width="170" height="110" alt="Blog Featured Image" />
@@ -93,14 +93,14 @@
                                                             <div class="d-inline-block">
                                                                 <div class="form-group mb-0">
                                                                     <div class="custom-file">
-                                                                        <input type="file" name="featured_image"  class="custom-file-input" id="blogCustomFile" accept="image/*" />
+                                                                        <input type="file" name="score"  class="custom-file-input" id="blogCustomFile" accept="file/*" />
                                                                         <label class="custom-file-label" for="blogCustomFile">Choose file</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>-->
+                                                </div>
                                             </div>
                                             <div class="col-12 mt-50">
                                                 <button type="submit" class="btn btn-primary mr-1">Save Changes</button>
