@@ -163,7 +163,7 @@ class TelegramBotRequestHelper {
                         ],
                         [
                             'name'     => 'document',
-                            'contents' => fopen($filePath, 'r'),
+                            'contents' => fopen(storage_path("app/$filePath"), 'r'),
                             'filename' => basename($filePath) 
                         ]
                     ]
