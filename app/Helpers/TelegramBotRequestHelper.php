@@ -6,9 +6,13 @@ use App\Models\Song;
 use GuzzleHttp\Client;
 
 class TelegramBotRequestHelper {
+   
+
     public static function sendSearchResults($request){
+        
          
         try{
+            $bot_token = env('BOT_TOKEN');
             $client = new Client();
             $update = $request->all();
                 $input = $update['message'];
@@ -38,17 +42,17 @@ class TelegramBotRequestHelper {
 
                 
     
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>$data
                 ]);
             }else {
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
                         'text'=> "we don't have that in out database"
                     ]
                 ]);
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
                         'text'=> "Contact Iwuchukwu Valentine via: valentineiwuchukwu@outlook.com"
@@ -58,7 +62,7 @@ class TelegramBotRequestHelper {
                 
                 
         }catch(Throwable $error) {
-            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            $client->post("https://api.telegram.org/$bot_token/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
                     'text'=> $error->getMessage()
@@ -69,6 +73,7 @@ class TelegramBotRequestHelper {
 
     public static function sendMusicLyric($request) {
         try{
+            $bot_token = env('BOT_TOKEN');
                 $update = $request->all();
                 $input = $update['callback_query']['data'];
     
@@ -87,19 +92,19 @@ class TelegramBotRequestHelper {
     
                 $client = new Client();
     
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
                         'text'=> "Title: $songs->title"
                     ]
                 ]);
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
                         'text'=> $songs->author?"Author:$songs->author":"Author: pending"
                     ]
                 ]);
-                $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
                         'text'=> $song
@@ -125,12 +130,12 @@ class TelegramBotRequestHelper {
     
                     
         
-                    $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+                    $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                         'json'=>$data
                     ]);
                 }
         }catch(Throwable $error) {
-            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
                     'text'=> $error->getMessage()
@@ -150,7 +155,7 @@ class TelegramBotRequestHelper {
 
             $chatId = $update['callback_query']['message']['chat']['id'];
 
-            $token = "7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g";
+            $token = env('BOT_TOKEN');
             $url = "https://api.telegram.org/bot{$token}/sendDocument";
             $client = new Client();
 
@@ -169,7 +174,7 @@ class TelegramBotRequestHelper {
                     ]
                 ]);
         } catch (Throwable $error) {
-            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            $client->post("https://api.telegram.org/bot$token/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
                     'text'=> $error->getMessage()
