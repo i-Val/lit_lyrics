@@ -22,7 +22,7 @@ class TelegramBotRequestHelper {
     
                 $songs = Song::where('title', 'LIKE', '%'.$userInput.'%')->get();
     
-                if ($songs != null) {
+                if ($songs->count() > 0) {
 
                 $inlineKeyboard = [];
 
