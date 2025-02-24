@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QueueController;
 use App\Http\Controllers\SongController;
 use App\Models\Song;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,5 @@ Route::get('download', [SongController::class, 'download']);
 Route::get('lyric/download/{id}', [SongController::class, 'single_download']);
 Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
 Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
+Route::get('enqueue', [QueueController::class, 'dispatch']);
 

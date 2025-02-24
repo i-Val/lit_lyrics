@@ -173,6 +173,8 @@
 <script src="{{asset('landing/js/images-loaded.min.js')}}"></script>
 <script src="{{asset('landing/js/lightbox.min.js')}}"></script>
 <script src="{{asset('landing/js/site.js')}}"></script>
+<script src="{{asset('landing/js/anime.js')}}"></script>
+<script></script>
 
 
 </body>

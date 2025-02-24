@@ -8,7 +8,7 @@
                 <div class="section-heading">
                     <h1>LITURGICAL LYRICS </h1>
                     <h2>An online repository for liturgical music lyrics.</h2>
-                        <form action="/lyrics/search" method="POST">
+                        <form class="box" action="/lyrics/search" method="POST">
                             @csrf
                             <input type="text" name="search_query" id="">
                             <button type="submit" class="button">SEARCH</button>
