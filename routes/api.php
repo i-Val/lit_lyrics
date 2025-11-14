@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LyricController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
@@ -20,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('song/search', [SongController::class, 'searchSong']);
+Route::get('song/search', [LyricController::class, 'searchSong']);
 Route::get('song/{id}', [SongController::class, 'viewSong']);
-Route::post('lyric', [TwitterBotController::class, 'get_lyrics']);
+Route::post('bot/lyric', [TwitterBotController::class, 'get_lyrics']);

@@ -20,6 +20,21 @@
                 </div>
 
                 <div class="col-2-3">
+                @if($songs->count() == 0)
+                    <!--Icon Block-->
+                <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.1s">
+                    <!--Icon-->
+                    <div class="icon">
+                        <i class="fa fa-bulb fa-2x"></i>
+                    </div>
+                    <!--Icon Block Description-->
+                    <div class="icon-block-description">
+                        <h4>Oops!!</h4>
+                        <p>No records found...</p>
+                    </div>
+                </div>
+                <!--End of Icon Block-->
+                @endif
 
                 @foreach($songs as $song)
                     <!--Icon Block-->

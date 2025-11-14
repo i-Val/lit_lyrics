@@ -84,8 +84,9 @@ class TelegramBotRequestHelper {
     
                 if($songs!=null){
                     $song =str_replace("<p>", "\n",$songs->verses);
-                    $song =str_replace("<br>", "\n\n",$song);
+                    $song =str_replace("<br>", " ",$song);
                     $song =str_replace("</p>", " ",$song);
+                    $song =str_replace("&nbsp;", " ",$song);
                 }else{
                     $song = 'no records found!';
                 }
@@ -107,7 +108,8 @@ class TelegramBotRequestHelper {
                 $client->post("https://api.telegram.org/bot$bot_token/sendMessage", [
                     'json'=>[
                         'chat_id'=>$chatId,
-                        'text'=> $song
+                        'text'=> $song,
+                        'parse_mode' => 'HTML'
                     ]
                 ]);
 

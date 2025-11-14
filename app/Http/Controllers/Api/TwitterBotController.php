@@ -12,6 +12,9 @@ use App\Helpers\TelegramBotRequestHelper;
 class TwitterBotController extends Controller
 {
     public function get_lyrics(Request $request){
+        try{
+        $bot_token = env('BOT_TOKEN');
+
         $update=$request->all();
         if(isset($update['message'])) {
          return TelegramBotRequestHelper::sendSearchResults($request);
@@ -31,13 +34,16 @@ class TwitterBotController extends Controller
             $client = new Client();
     
                 $chatId = $input['chat']['id'];
-            $client->post("https://api.telegram.org/bot7806842577:AAGGBAynHIJBkPL-HiR2pLMneNOKOv5is0g/sendMessage", [
+            $client->post("https://api.telegram.org/$bot_token/sendMessage", [
                 'json'=>[
                     'chat_id'=>$chatId,
-                    'text'=> $request
+                    'text'=> $request,
                 ]
             ]);
            }
+        }catch(Throwable $ex){
+            return $ex->getMessage();
+        }
    
     }
     

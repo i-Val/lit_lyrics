@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\WebsiteController;
 use App\Models\Song;
 use Illuminate\Support\Facades\Route;
 
@@ -15,25 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing');
-});
-Route::get('/search', function () {
-    return view('search-results');
-});
-Route::get('/details', function () {
-    return view('lyric-details');
-});
-
-Route::get('/lyric', [SongController::class, 'create']);
-Route::post('/lyric', [SongController::class, 'addSong']);
-Route::get('/lyrics', [SongController::class, 'index']);
-
-Route::post('lyrics/search', [SongController::class, 'searchSong']);
-
-Route::get('lyric/{id}', [SongController::class, 'viewSong']);
-Route::get('download', [SongController::class, 'download']);
+Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::post('lyrics/search', [WebsiteController::class, 'searchSong']);
+Route::get('lyric/{id}', [WebsiteController::class, 'viewSong']);
 Route::get('lyric/download/{id}', [SongController::class, 'single_download']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard Related Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/lyric', [SongController::class, 'create'])->name('dashboard.lyric.create');
+Route::post('/lyric', [SongController::class, 'addSong'])->name('dashboard.lyric.store');
+Route::get('/lyrics', [SongController::class, 'index'])->name('dashboard.lyric.list');
+
+
+
+
+
+
 Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
 Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
+Route::get('e', [SongController::class, 'extractFromTxt']);
 
