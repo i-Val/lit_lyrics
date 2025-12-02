@@ -61,12 +61,12 @@
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="ui-typography.html"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Typography</span></a>
                 </li>-->
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Users</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Pages">Users</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="/users"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">User List</span></a>
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.users.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">User List</span></a>
                            
                         </li>
-                        <li><a class="d-flex align-items-center" href="/register"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add User</span></a>
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.users.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add User</span></a>
                            
                         </li>
                     </ul>

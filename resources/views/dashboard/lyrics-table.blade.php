@@ -50,7 +50,7 @@
                                             <td><a href="lyric/{{$song->id}}"><i class="fa fa-view"></i> {{$song->title}}</a></td>
                                             <td>{{$song->author}}</td>
                                             <td>{{$song->created_at}}</td>
-                                            <td><a href="lyric/edit/{{$song->id}}"> <i class="fa fa-edit"></i> Edit</a> <a href="lyric/delete/{{$song->id}}"><i class="ti-trash"></i> Delete</a></td>
+                                            <td><a href="{{ route('dashboard.lyric.edit', $song->id) }}"> <i class="fa fa-edit"></i> Edit</a> <a href="lyric/delete/{{$song->id}}"><i class="ti-trash"></i> Delete</a></td>
                                         </tr>
                                         @endforeach
                                     </tbody>

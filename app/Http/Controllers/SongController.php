@@ -76,30 +76,31 @@ class SongController extends Controller
     //edit song
     public function editSong($id)
     {
-        $song = Song::where('id', $id)->get()->with('verses');
-        return view('edit-song', compact('song'));
+        $song = Song::findOrFail($id);
+        return view('dashboard.edit-song', compact('song'));
     }
     //update song + lyrics
     public function updateSong(Request $request, $id)
     {
         try {
-            $song = Song::find($id);
+            $song = Song::findOrFail($id);
 
-            $info = [
+            $data = [
                 'title' => $request->title,
                 'author' => $request->author,
+                'category' => $request->category,
+                'verses' => $request->verses,
             ];
 
-            $updated_song = $song->update($info);
-
-            $verses = $request->verses;
-
-            if ($updated_song) {
-                foreach ($verses as $verse) {
-                    $updated_song->lyrics()->create($verse);
-                }
+            if ($request->file('score') != null) {
+                $image_name = $request->file('score')->getClientOriginalName();
+                $request->file('score')->storeAs('public/music-sheets', $image_name);
+                $data['music_sheet'] = "public/music-sheets/$image_name";
             }
-            return back()->with('succes', 'song updated successfully!');
+
+            $song->update($data);
+
+            return redirect()->route('dashboard.lyric.edit', $song->id)->with('success', 'Song updated successfully!');
         } catch (Throwable $exception) {
             return $exception->getMessage();
         }
