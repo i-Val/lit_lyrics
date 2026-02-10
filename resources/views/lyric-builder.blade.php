@@ -26,16 +26,17 @@
                     </div>
                 </div>
 
-                <!-- Preview Section (Hidden initially) -->
-                <div id="preview-section" style="display: none; text-align: left; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 10px; max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
-                    <h3 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px;">Collection Preview</h3>
-                    <div id="preview-list" style="margin-top: 10px;"></div>
+                <!-- Final Step Message (Hidden initially) -->
+                <div id="final-step-message" style="display: none; text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: white;">Collection Complete!</h3>
+                    <p>Your mass selection is ready. You can preview the list or download the file below.</p>
                 </div>
 
                 <!-- Controls -->
                 <div class="controls" style="margin-top: 30px;">
                     <button id="btn-prev" onclick="prevStep()" class="button" style="display: none; margin-right: 10px; background: transparent; border: 2px solid white;">Previous</button>
                     <button id="btn-next" onclick="nextStep()" class="button">Next Step</button>
+                    <button id="btn-preview-popup" onclick="openPreviewModal()" class="button" style="display: none; margin-right: 10px; background: #17a2b8; border-color: #17a2b8;">Preview</button>
                     <button id="btn-download" onclick="downloadCollection()" class="button" style="display: none;">Download .txt</button>
                 </div>
                 
@@ -54,6 +55,18 @@
                     <input type="hidden" name="dismissal" id="input-dismissal">
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; color: #333; border-radius: 8px; position: relative;">
+        <span class="close" onclick="closePreviewModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #333;">Collection Preview</h3>
+        <div id="preview-list" style="max-height: 60vh; overflow-y: auto;"></div>
+        <div style="margin-top: 20px; text-align: right;">
+            <button onclick="closePreviewModal()" class="button" style="background: #6c757d; border-color: #6c757d; padding: 5px 15px; font-size: 14px;">Close</button>
         </div>
     </div>
 </div>
@@ -87,10 +100,12 @@
     const selectedTitle = document.getElementById('selected-song-title'); // Kept for single mode structure, but we might replace innerHTML
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
+    const btnPreviewPopup = document.getElementById('btn-preview-popup');
     const btnDownload = document.getElementById('btn-download');
     const searchSection = document.getElementById('search-section');
-    const previewSection = document.getElementById('preview-section');
+    const finalStepMessage = document.getElementById('final-step-message');
     const previewList = document.getElementById('preview-list');
+    const previewModal = document.getElementById('preview-modal');
 
     totalSteps.textContent = steps.length;
 
@@ -160,8 +175,9 @@
         if (currentStep < steps.length) {
             // Wizard Mode
             searchSection.style.display = 'block';
-            previewSection.style.display = 'none';
+            finalStepMessage.style.display = 'none';
             btnNext.style.display = 'inline-block';
+            btnPreviewPopup.style.display = 'none';
             btnDownload.style.display = 'none';
             
             const step = steps[currentStep];
@@ -197,17 +213,32 @@
                 }
             }
         } else {
-            // Preview Mode
+            // Preview/End Mode
             searchSection.style.display = 'none';
-            previewSection.style.display = 'block';
-            stepTitle.textContent = 'Preview Collection';
+            finalStepMessage.style.display = 'block';
+            stepTitle.textContent = 'Ready to Download';
             btnNext.style.display = 'none';
+            btnPreviewPopup.style.display = 'inline-block';
             btnDownload.style.display = 'inline-block';
-            
-            renderPreview();
         }
 
         btnPrev.style.display = currentStep > 0 ? 'inline-block' : 'none';
+    }
+
+    function openPreviewModal() {
+        renderPreview();
+        previewModal.style.display = 'block';
+    }
+
+    function closePreviewModal() {
+        previewModal.style.display = 'none';
+    }
+
+    // Close modal if clicked outside of content
+    window.onclick = function(event) {
+        if (event.target == previewModal) {
+            closePreviewModal();
+        }
     }
 
     function renderPreview() {
