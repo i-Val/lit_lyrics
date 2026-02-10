@@ -107,84 +107,60 @@ class SongController extends Controller
     }
     //download lyric docx
 
-    public function download()
+    public function single_download(Request $request, $id)
     {
+        $song = Song::findOrFail($id);
+        $type = $request->query('type', 'docx');
+        $safeTitle = preg_replace('/[^A-Za-z0-9\- ]/', '', $song->title);
+        $safeTitle = str_replace(' ', '_', $safeTitle);
 
-        $song = Song::where('id', 1)->first();
+        if ($type === 'txt') {
+            // Replace <br> tags with newlines before stripping tags
+            $content = str_ireplace(['<br />', '<br>', '<br/>', '</p>'], "\n", $song->verses);
+            $content = strip_tags($content);
+            $content = html_entity_decode($content);
+            $content = trim($content);
 
-        // return htmlspecialchars($song->lyrics[0]->lyric);
-        //Creating new document...
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $filename = $safeTitle . '.txt';
 
-        /* Note: any element you append to a document must reside inside of a Section. */
+            return response($content)
+                ->header('Content-Type', 'text/plain')
+                ->header('Content-Disposition', "attachment; filename=\"{$filename}\"");
+        } else {
+            // DOCX
+            try {
+                $phpWord = new \PhpOffice\PhpWord\PhpWord();
+                $section = $phpWord->addSection();
+                
+                // Add Title
+                $section->addText(
+                    $song->title,
+                    array('name' => 'Tahoma', 'size' => 16, 'bold' => true)
+                );
+                
+                $section->addTextBreak(1);
 
-        // Adding an empty Section to the document...
-        $section = $phpWord->addSection();
-        // Adding Text element to the Section having font styled by default...
-        $section->addText(
-            $song->title,
-            array('name' => 'Tahoma', 'size' => 20, 'bold' => true)
-        );
-        $section->addHTML(
-            $song->verses,
-            array('name' => 'Tahoma', 'size' => 20)
-        );
+                // Add Verses
+                // Ensure HTML is somewhat clean for PhpWord
+                $section->addHTML(
+                    $song->verses,
+                    array('name' => 'Tahoma', 'size' => 12)
+                );
 
-        // Saving the document as OOXML file...
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        return $objWriter->save('wow.docx');
+                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+                $filename = $safeTitle . '.docx';
+                
+                $temp_file = tempnam(sys_get_temp_dir(), 'lyric_');
+                $objWriter->save($temp_file);
+                
+                return response()->download($temp_file, $filename)->deleteFileAfterSend(true);
 
-        // Saving the document as HTML file...
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
-        $objWriter->save('see.html');
-
-        /*$data = "this is amazing";
-
-        $filename = "amazing.docx";
-
-        $header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" .
-                  "<w:wordDocument xmlns:w=\"http://schemas.microsoft.com/office/word/2003/wordml\">" . 
-                  "<w:body>";
-
-        $footer = "</w:body></w:wordDocument>" ;
-
-        $content = "<w:p><w:r><w:t>$data</w:t></w:r></w:p>";
-
-        $wordContent = $header . $content . $footer;
-
-        header("Content-Type: application/vnd.ms-word");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-
-        echo $wordContent;*/
-    }
-
-    public function single_download($id)
-    {
-        $song = Song::where('id', $id)->first();
-
-        header("Content-type: application/vnd.ms-word");
-        header("Content-Disposition: attachment;Filename=.$song->title.docx");
-        header("Pragma: no-cache");
-        header("Express: 0");
-        echo '<!DOCTYPE html>';
-        echo '<html lang="en">';
-        echo '<head>';
-        echo  '<meta charset="UTF-8">';
-        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-        echo '<title>Document</title>';
-        echo '</head>';
-        echo '<body>';
-        echo '<h1>' . $song->title . '</h1>';
-
-        echo $song->verses . '</br> </br></br>';
-        echo '</body>';
-        echo '</html>';
-
-        $filePath = 'word_export.doc';
-
-        //Save the content to the Word file
-        file_put_contents($filePath, $wordContent);
-
+            } catch (\Exception $e) {
+                // Fallback to HTML-as-DOC if PhpWord fails (though strict .docx was requested, this is safer than crashing)
+                // But better to just return the error for debugging now
+                return response("Error generating DOCX: " . $e->getMessage(), 500);
+            }
+        }
     }
 
     public function collection_download(Request $request)
@@ -434,5 +410,57 @@ class SongController extends Controller
         }
 
         return response()->json($result);
+    }
+
+    public function lyricBuilderDownload(Request $request)
+    {
+        $parts = [
+            'Entrance' => $request->input('entrance'),
+            'Kyrie' => $request->input('kyrie'),
+            'Gloria' => $request->input('gloria'),
+            'Credo' => $request->input('credo'),
+            'Offertory' => $request->input('offertory'),
+            'Consecration' => $request->input('consecration'),
+            'Sanctus' => $request->input('sanctus'),
+            'Agnus Dei' => $request->input('agnus_dei'),
+            'Communion' => $request->input('communion'),
+            'Dismissal' => $request->input('dismissal'),
+        ];
+
+        $content = "SELECTION FOR MASS\n\n";
+
+        foreach ($parts as $label => $songIds) {
+            $content .= strtoupper($label) . ":\n";
+            if ($songIds && $songIds !== 'null') {
+                $ids = explode(',', $songIds);
+                $foundAny = false;
+
+                foreach ($ids as $id) {
+                    $song = Song::find(trim($id));
+                    if ($song) {
+                        $foundAny = true;
+                        $content .= $song->title . "\n";
+                        // Clean verses (remove HTML tags)
+                        $verses = str_ireplace(['<br />', '<br>', '<br/>', '</p>'], "\n", $song->verses);
+                        $verses = strip_tags($verses);
+                        $verses = html_entity_decode($verses);
+                        $content .= trim($verses) . "\n\n";
+                    }
+                }
+
+                if (!$foundAny) {
+                    $content .= "Not Found\n\n";
+                }
+            } else {
+                $content .= "Not Found\n\n";
+            }
+            $content .= "--------------------------------------------------\n\n";
+        }
+
+        $filename = 'mass_selection_' . date('Y-m-d_H-i') . '.txt';
+
+        return response($content)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', "attachment; filename=\"{$filename}\"");
     }
 }

@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('/about', [WebsiteController::class, 'about'])->name('about');
+Route::get('/lyric-builder', [WebsiteController::class, 'lyricBuilder'])->name('lyric-builder');
+Route::get('/api/songs/search', [WebsiteController::class, 'searchSongJson'])->name('api.songs.search');
+Route::post('/lyric-builder/download', [SongController::class, 'lyricBuilderDownload'])->name('lyric-builder.download');
 Route::post('lyrics/search', [WebsiteController::class, 'searchSong']);
 Route::get('lyric/{id}', [WebsiteController::class, 'viewSong']);
 Route::get('lyric/download/{id}', [SongController::class, 'single_download']);

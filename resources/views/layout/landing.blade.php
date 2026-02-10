@@ -100,7 +100,10 @@
                                 <a href="/">Home</a>
                             </li>
                             <li>
-                                <a href="#about">About</a>
+                                <a href="{{ route('about') }}">About</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('lyric-builder') }}">Lyric Builder</a>
                             </li>
                             <!--<li>
                                 <a href="#gallery">Gallery</a>

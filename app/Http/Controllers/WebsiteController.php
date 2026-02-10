@@ -14,6 +14,11 @@ class WebsiteController extends Controller
         return view('landing');
     }
 
+    public function about()
+    {
+        return view('about');
+    }
+
     public function searchSong(Request $request) {
         $songs = Song::where('title', 'LIKE', '%' . $request->search_query . '%')->get();
         $search_term = $request->query('search');
@@ -37,5 +42,23 @@ class WebsiteController extends Controller
         } catch (Throwable $exception) {
             return $exception->getMessage();
         }
+    }
+
+    public function lyricBuilder()
+    {
+        return view('lyric-builder');
+    }
+
+    public function searchSongJson(Request $request)
+    {
+        $query = $request->query('q');
+        if (!$query) {
+            return response()->json([]);
+        }
+        $songs = Song::where('title', 'LIKE', '%' . $query . '%')
+            ->select('id', 'title', 'author') // Optimize selection
+            ->limit(10)
+            ->get();
+        return response()->json($songs);
     }
 }

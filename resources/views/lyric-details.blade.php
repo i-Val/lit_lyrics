@@ -36,8 +36,11 @@
                     </div>
                     {!!$song->verses!!}
                     <!-- Just replace the Video ID "UYJ5IjBRlW8" with the ID of your video on YouTube (Found within the URL) -->
-                    <a href="/lyric/download/{{$song->id}}"  class="button  ">
-                        DOWNLOAD DOC <i class="fa fa-play" aria-hidden="true"></i>
+                    <a href="/lyric/download/{{$song->id}}?type=docx"  class="button  ">
+                        DOCX <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                    </a>
+                    <a href="/lyric/download/{{$song->id}}?type=txt"  class="button  ">
+                        TXT <i class="fa fa-file-text-o" aria-hidden="true"></i>
                     </a>
                 </div>
                 <!--End Content Right Side-->
