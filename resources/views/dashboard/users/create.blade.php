@@ -1,14 +1,6 @@
-@extends('layout.dashboard')
+@extends('layout.app')
 
 @section('content')
-@include('partials.create-blog-header')
-@include('partials.sidebar')
-
-<!-- BEGIN: Content-->
-<div class="app-content content ">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
@@ -79,10 +71,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- END: Content-->
-
-@include('partials.footer')
-@include('partials.create-blog-scripts')
 @endsection

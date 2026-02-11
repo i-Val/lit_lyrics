@@ -77,7 +77,8 @@ class SongController extends Controller
     public function editSong($id)
     {
         $song = Song::findOrFail($id);
-        return view('dashboard.edit-song', compact('song'));
+        $categories = Category::all();
+        return view('dashboard.edit-song', compact('song', 'categories'));
     }
     //update song + lyrics
     public function updateSong(Request $request, $id)
@@ -267,8 +268,9 @@ class SongController extends Controller
         try {
             $song = Song::where('id', $id);
             $song->delete();
+            return back()->with('success', 'Song deleted successfully!');
         } catch (Throwable $exception) {
-            return $exception->getMessage();
+            return back()->with('error', $exception->getMessage());
         }
     }
 

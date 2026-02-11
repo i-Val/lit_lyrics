@@ -33,27 +33,33 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class=" nav-item"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Dashboard</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.index') }}"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Dashboard</span></a>
                 </li>
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Publication</span><i data-feather="more-horizontal"></i>
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Lyrics</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="/lyric"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.lyric.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
                            
                         </li>
-                        <li><a class="d-flex align-items-center" href="/lyrics"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.lyric.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
                            
                         </li>
                     </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Music Sheet</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Pages">Categories</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
-                           
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.categories.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">List</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
-                           
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.categories.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="music"></i><span class="menu-title text-truncate" data-i18n="Pages">Music Sheet</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
                         </li>
                     </ul>
                 </li>

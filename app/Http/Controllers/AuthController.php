@@ -8,8 +8,15 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Mail\ResetPasswordMail;
 
 class AuthController extends Controller
 {
@@ -18,25 +25,19 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        try{
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        try {
+            $credentials = $request->validated();
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
-        }
+            if (Auth::attempt($credentials, $request->boolean('remember'))) {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
 
+            return back()->with('error', 'The provided credentials do not match our records.');
         
-        }catch(Throwable $exception) {
-        //     return back()->withErrors([
-        //     'email' => 'The provided credentials do not match our records.',
-        // ])->onlyInput('email');
-
+        } catch(Throwable $exception) {
             return back()->with('error', $exception->getMessage());
         }
     }
@@ -56,31 +57,26 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
-        $validated = $request->validate([
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', 'min:8'],
-        ]);
+            $validated = $request->validated();
 
-        $user = User::create([
-            'firstname' => $validated['firstname'],
-            'lastname' => $validated['lastname'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-        ]);
+            $user = User::create([
+                'firstname' => $validated['firstname'],
+                'lastname' => $validated['lastname'],
+                'email' => $validated['email'],
+                'password' => $validated['password'],
+            ]);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        $user->sendEmailVerificationNotification();
+            $user->sendEmailVerificationNotification();
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
-        }catch(Throwable $exception) {
+            return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
+        } catch(Throwable $exception) {
             return back()->with('error', $exception->getMessage());
         }
     }
@@ -90,17 +86,28 @@ class AuthController extends Controller
         return view('auth.forgot-password');
     }
 
-    public function sendResetLink(Request $request)
+    public function sendResetLink(ForgotPasswordRequest $request)
     {
-        $request->validate(['email' => ['required', 'email']]);
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        if ($user) {
+            $token = Str::random(60);
+            
+            // Delete existing tokens
+            DB::table('password_reset_tokens')->where('email', $email)->delete();
+            
+            // Insert new token
+            DB::table('password_reset_tokens')->insert([
+                'email' => $email,
+                'token' => Hash::make($token),
+                'created_at' => Carbon::now()
+            ]);
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
+            Mail::to($email)->send(new ResetPasswordMail($token, $email));
+        }
+
+        return back()->with('status', 'We have e-mailed your password reset link!');
     }
 
      public function resetPasswordForm(Request $request, string $token)
@@ -108,29 +115,33 @@ class AuthController extends Controller
         return view('auth.reset-password', ['token' => $token, 'email' => $request->query('email')]);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', 'min:8'],
-        ]);
+        $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => $request->password,
-                ])->setRememberToken(Str::random(60));
+        if (!$record || !Hash::check($request->token, $record->token)) {
+             return back()->withErrors(['email' => 'Invalid token or email.']);
+        }
 
-                $user->save();
+        // Check expiration (60 minutes)
+        if (Carbon::parse($record->created_at)->addMinutes(60)->isPast()) {
+            DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+            return back()->withErrors(['email' => 'This password reset token has expired.']);
+        }
 
-                event(new PasswordReset($user));
-            }
-        );
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+             return back()->withErrors(['email' => 'We can\'t find a user with that e-mail address.']);
+        }
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        // Using hashed cast in User model, so we assign plain password
+        $user->password = $request->password;
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        // Delete token
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        return redirect()->route('login')->with('status', 'Your password has been reset!');
     }
 }

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -71,17 +73,20 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/lyric', [SongController::class, 'create'])->name('dashboard.lyric.create');
-Route::post('/lyric', [SongController::class, 'addSong'])->name('dashboard.lyric.store');
-Route::get('/lyrics', [SongController::class, 'index'])->name('dashboard.lyric.list');
-Route::get('/lyric/{id}/edit', [SongController::class, 'editSong'])->name('dashboard.lyric.edit');
-Route::put('/lyric/{id}', [SongController::class, 'updateSong'])->name('dashboard.lyric.update');
 
-Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
-Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
 Route::get('e', [SongController::class, 'extractFromTxt']);
 
 Route::middleware('auth')->group(function () {
+    Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
+    Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/lyric', [SongController::class, 'create'])->name('dashboard.lyric.create');
+    Route::post('/lyric', [SongController::class, 'addSong'])->name('dashboard.lyric.store');
+    Route::get('/lyrics', [SongController::class, 'index'])->name('dashboard.lyric.list');
+    Route::get('/lyric/{id}/edit', [SongController::class, 'editSong'])->name('dashboard.lyric.edit');
+    Route::put('/lyric/{id}', [SongController::class, 'updateSong'])->name('dashboard.lyric.update');
+    Route::delete('/lyric/{id}', [SongController::class, 'delete'])->name('dashboard.lyric.delete');
+
     // User management
     Route::get('/users', [UserManagementController::class, 'index'])->name('dashboard.users.index');
     Route::get('/users/create', [UserManagementController::class, 'create'])->name('dashboard.users.create');
@@ -90,5 +95,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('dashboard.users.update');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('dashboard.users.destroy');
     Route::post('/users/{user}/reset-link', [UserManagementController::class, 'sendResetLink'])->name('dashboard.users.sendResetLink');
+
+    // Profile Management
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('dashboard.profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('dashboard.profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('dashboard.profile.password');
+
+    // Category Management
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class)->names('dashboard.categories');
+
+    // Music Sheet Management
+    Route::resource('music-sheets', \App\Http\Controllers\MusicSheetController::class)->names('dashboard.music-sheets');
 });
 

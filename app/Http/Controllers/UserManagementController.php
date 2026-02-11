@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserManagementController extends Controller
 {
@@ -22,13 +23,9 @@ class UserManagementController extends Controller
         return view('dashboard.users.create');
     }
 
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $validated = $request->validate([
-            'firstname' => ['required','string','max:255'],
-            'lastname' => ['required','string','max:255'],
-            'email' => ['required','email','max:255','unique:users,email'],
-        ]);
+        $validated = $request->validated();
 
         // Create user with a temporary random password
         $tempPassword = Str::random(12);
@@ -50,13 +47,9 @@ class UserManagementController extends Controller
         return view('dashboard.users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'firstname' => ['required','string','max:255'],
-            'lastname' => ['required','string','max:255'],
-            'email' => ['required','email','max:255', Rule::unique('users')->ignore($user->id)],
-        ]);
+        $validated = $request->validated();
 
         $user->update($validated);
 
