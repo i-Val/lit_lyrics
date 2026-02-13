@@ -1,7 +1,15 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mr-auto"><a class="navbar-brand" href="{{asset('dashboard/html/ltr/vertical-menu-template-bordered/#')}}"><span class="brand-logo">
+                <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('dashboard.index') }}"><span class="brand-logo">
+                            @php
+                                $siteLogo = \App\Models\Setting::get('site_logo');
+                                $logoUrl = $siteLogo ? asset(str_replace('public/', 'storage/', $siteLogo)) : null;
+                            @endphp
+                            
+                            @if($logoUrl)
+                                <img src="{{ $logoUrl }}" alt="Logo" style="max-height: 30px;">
+                            @else
                             <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
@@ -24,7 +32,9 @@
                                         </g>
                                     </g>
                                 </g>
-                            </svg></span>
+                            </svg>
+                            @endif
+                            </span>
                         <h2 class="brand-text">LIT-LYRICS</h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
@@ -76,6 +86,8 @@
                            
                         </li>
                     </ul>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.settings.index') }}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Settings">Settings</span></a>
                 </li>
             </ul>
         </div>

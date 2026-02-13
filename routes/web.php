@@ -101,6 +101,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('dashboard.profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('dashboard.profile.password');
 
+    // Settings
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('dashboard.settings.index');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('dashboard.settings.update');
+
     // Category Management
     Route::resource('categories', \App\Http\Controllers\CategoryController::class)->names('dashboard.categories');
 

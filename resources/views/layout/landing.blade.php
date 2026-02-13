@@ -54,40 +54,56 @@
         <div id="header" class="nav-collapse">
             <div class="row clearfix">
                 <div class="col-1">
+                        <!--Logo-->
+                        <div id="logo">
 
-                    <!--Logo-->
-                    <div id="logo">
+                            @php
+                                $siteLogo = \App\Models\Setting::get('site_logo');
+                                $logoUrl = $siteLogo ? asset(str_replace('public/', 'storage/', $siteLogo)) : null;
+                            @endphp
 
-                        <!--Logo that is shown on the banner-->
-                        <img src="images/logo.png" id="banner-logo" alt="Landing Page"/>
-                        <!--End of Banner Logo-->
+                            <!--Logo that is shown on the banner-->
+                            <img src="{{ $logoUrl ?? 'images/logo.png' }}" id="banner-logo" alt="Landing Page"/>
+                            <!--End of Banner Logo-->
 
-                        <!--The Logo that is shown on the sticky Navigation Bar-->
-                        <img src="images/logo-2.png" id="navigation-logo" alt="Landing Page"/>
-                        <!--End of Navigation Logo-->
+                            <!--The Logo that is shown on the sticky Navigation Bar-->
+                            <img src="{{ $logoUrl ?? 'images/logo-2.png' }}" id="navigation-logo" alt="Landing Page"/>
+                            <!--End of Navigation Logo-->
 
-                    </div>
-                    <!--End of Logo-->
+                        </div>
+                        <!--End of Logo-->
 
+                    @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset', 'verification.notice'))
                     <aside>
+                        @php
+                            $facebook = \App\Models\Setting::get('social_facebook');
+                            $twitter = \App\Models\Setting::get('social_twitter');
+                            $instagram = \App\Models\Setting::get('social_instagram');
+                        @endphp
 
                         <!--Social Icons in Header-->
                         <ul class="social-icons">
+                            @if($facebook)
                             <li>
-                                <a target="_blank" title="Facebook" href="https://www.facebook.com/username">
+                                <a target="_blank" title="Facebook" href="{{ $facebook }}">
                                     <i class="fa fa-facebook fa-1x"></i><span>Facebook</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($twitter)
                             <li>
-                                <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
+                                <a target="_blank" title="Twitter" href="{{ $twitter }}">
                                     <i class="fa fa-twitter fa-1x"></i><span>Twitter</span>
                                 </a>
                             </li>
+                            @endif
+                            @if($instagram)
                             <li>
-                                <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
+                                <a target="_blank" title="Instagram" href="{{ $instagram }}">
                                     <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                         <!--End of Social Icons in Header-->
 
@@ -126,6 +142,7 @@
 
                     <div id="nav-trigger"><span></span></div>
                     <nav id="nav-mobile"></nav>
+                    @endif
 
                 </div>
             </div>
@@ -138,25 +155,33 @@
 
             <p id="copyright" class="col-2">Made with love by <a href="/">ShapingRain</a></p>
 
+            @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset', 'verification.notice'))
             <!--Social Icons in Footer-->
             <ul class="col-2 social-icons">
+                @if(isset($facebook) && $facebook)
                 <li>
-                    <a target="_blank" title="Facebook" href="https://www.facebook.com/username">
+                    <a target="_blank" title="Facebook" href="{{ $facebook }}">
                         <i class="fa fa-facebook fa-1x"></i><span>Facebook</span>
                     </a>
                 </li>
+                @endif
+                @if(isset($twitter) && $twitter)
                 <li>
-                    <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
+                    <a target="_blank" title="Twitter" href="{{ $twitter }}">
                         <i class="fa fa-twitter fa-1x"></i><span>Twitter</span>
                     </a>
                 </li>
+                @endif
+                @if(isset($instagram) && $instagram)
                 <li>
-                    <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
+                    <a target="_blank" title="Instagram" href="{{ $instagram }}">
                         <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
                     </a>
                 </li>
+                @endif
             </ul>
             <!--End of Social Icons in Footer-->
+            @endif
         </div>
     </footer>
     <!--End of Footer-->
