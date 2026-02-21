@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 
     <!--Page Title-->
-    <title>Namari - Free Landing Page Template</title>
+    <title>Lit Lyrics</title>
 
     <!--Meta Keywords and Description-->
     <meta name="keywords" content="">
@@ -153,7 +153,7 @@
  <footer id="landing-footer" class="clearfix">
         <div class="row clearfix">
 
-            <p id="copyright" class="col-2">Made with love by <a href="/">ShapingRain</a></p>
+            <p id="copyright" class="col-2">Made with love by <a href="/">Valentine</a></p>
 
             @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset', 'verification.notice'))
             <!--Social Icons in Footer-->
