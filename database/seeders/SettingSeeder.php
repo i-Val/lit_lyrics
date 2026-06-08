@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
@@ -66,6 +65,12 @@ class SettingSeeder extends Seeder
                 'value' => 'https://instagram.com',
                 'group' => 'social',
                 'type' => 'text',
+            ],
+            [
+                'key' => 'api_is_free',
+                'value' => '1',
+                'group' => 'api',
+                'type' => 'boolean',
             ],
         ];
 

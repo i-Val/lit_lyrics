@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\SongController;
-use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\ApiClientController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,9 @@ Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('/about', [WebsiteController::class, 'about'])->name('about');
 Route::get('/lyric-builder', [WebsiteController::class, 'lyricBuilder'])->name('lyric-builder');
 Route::get('/api/songs/search', [WebsiteController::class, 'searchSongJson'])->name('api.songs.search');
+Route::get('/api/docs', function () {
+    return view('api.docs');
+})->name('api.docs');
 Route::post('/lyric-builder/download', [SongController::class, 'lyricBuilderDownload'])->name('lyric-builder.download');
 Route::post('lyrics/search', [WebsiteController::class, 'searchSong']);
 Route::get('lyric/{id}', [WebsiteController::class, 'viewSong']);
@@ -55,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('verify-email/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
+
         return redirect()->intended('/');
     })->middleware(['signed'])->name('verification.verify');
 
@@ -63,6 +68,7 @@ Route::middleware('auth')->group(function () {
             return redirect()->intended('/');
         }
         Auth::user()->sendEmailVerificationNotification();
+
         return back()->with('status', 'verification-link-sent');
     })->name('verification.send');
 });
@@ -110,5 +116,11 @@ Route::middleware('auth')->group(function () {
 
     // Music Sheet Management
     Route::resource('music-sheets', \App\Http\Controllers\MusicSheetController::class)->names('dashboard.music-sheets');
-});
 
+    // API Clients
+    Route::get('/api-clients', [ApiClientController::class, 'index'])->name('dashboard.api-clients.index');
+    Route::get('/api-clients/{apiClient}/edit', [ApiClientController::class, 'edit'])->name('dashboard.api-clients.edit');
+    Route::put('/api-clients/{apiClient}', [ApiClientController::class, 'update'])->name('dashboard.api-clients.update');
+    Route::delete('/api-clients/{apiClient}', [ApiClientController::class, 'destroy'])->name('dashboard.api-clients.destroy');
+    Route::post('/api-clients/{apiClient}/reset-key', [ApiClientController::class, 'resetKey'])->name('dashboard.api-clients.resetKey');
+});

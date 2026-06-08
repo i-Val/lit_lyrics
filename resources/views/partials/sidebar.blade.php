@@ -87,6 +87,8 @@
                         </li>
                     </ul>
                 </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.api-clients.index') }}"><i data-feather="key"></i><span class="menu-title text-truncate" data-i18n="API Clients">API Clients</span></a>
+                </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.settings.index') }}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Settings">Settings</span></a>
                 </li>
             </ul>
