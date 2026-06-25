@@ -17,31 +17,7 @@
     </div>
 </div>
 <div class="content-body">
-    @if(session('status'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <div class="alert-body">
-                {{ session('status') }}
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <div class="alert-body">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+    @include('partials.alert')
 
     <div class="row">
         <!-- Profile Information Card -->
@@ -117,6 +93,89 @@
                         </div>
                         <button type="submit" class="btn btn-primary mt-1">Change Password</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">API Access</h4>
+                </div>
+                <div class="card-body">
+                    @if(session('new_api_key'))
+                        <div class="alert alert-warning" role="alert">
+                            <div class="alert-body">
+                                <div><strong>Your new API key (copy it now):</strong></div>
+                                <div style="word-break:break-all; padding:0.75rem; background:#fff; border:1px solid #e5e7eb; border-radius:6px; margin-top:0.5rem;">
+                                    {{ session('new_api_key') }}
+                                </div>
+                                <div class="mt-1">This key will not be shown again. If you lose it, reset it here.</div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+                            <div class="mb-2">
+                                <div class="text-muted">Email Verification</div>
+                                <div>
+                                    @if($user->email_verified_at)
+                                        <span class="badge badge-light-success">Verified</span>
+                                    @else
+                                        <span class="badge badge-light-warning">Not Verified</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="mb-2">
+                                <div class="text-muted">API Key Created</div>
+                                <div>
+                                    @if($apiClient && $apiClient->api_key_created_at)
+                                        {{ $apiClient->api_key_created_at->format('Y-m-d H:i') }}
+                                    @else
+                                        -
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="mb-2">
+                                <div class="text-muted">API Requests</div>
+                                <div>{{ $apiClient ? number_format((int) $apiClient->requests_count) : '0' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="mb-2">
+                                <div class="text-muted">Last API Use</div>
+                                <div>
+                                    @if($apiClient && $apiClient->last_used_at)
+                                        {{ $apiClient->last_used_at->format('Y-m-d H:i') }}
+                                        @if($apiClient->last_used_ip)
+                                            ({{ $apiClient->last_used_ip }})
+                                        @endif
+                                    @else
+                                        Never
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap">
+                        <form action="{{ route('dashboard.profile.api-key.reset') }}" method="POST" class="mr-1 mb-1">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">
+                                {{ $apiClient ? 'Reset API Key' : 'Generate API Key' }}
+                            </button>
+                        </form>
+                        <div class="mb-1 d-flex align-items-center text-muted">
+                            Use your API key in the <strong class="ml-25 mr-25">X-API-Key</strong> header (or <strong class="ml-25">Authorization: Bearer</strong>).
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

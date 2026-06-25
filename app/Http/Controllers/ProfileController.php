@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApiClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,12 @@ class ProfileController extends Controller
      */
     public function edit()
     {
+        $user = Auth::user();
+        $apiClient = ApiClient::query()->where('user_id', $user->id)->first();
+
         return view('dashboard.profile', [
-            'user' => Auth::user(),
+            'user' => $user,
+            'apiClient' => $apiClient,
         ]);
     }
 
@@ -54,5 +59,35 @@ class ProfileController extends Controller
         ]);
 
         return back()->with('status', 'Password updated successfully.');
+    }
+
+    public function resetApiKey(Request $request)
+    {
+        $user = Auth::user();
+        $rawKey = ApiClient::generateApiKey();
+
+        $apiClient = ApiClient::query()->where('user_id', $user->id)->first();
+        if (! $apiClient) {
+            $apiClient = ApiClient::query()->where('email', $user->email)->first();
+        }
+
+        $attributes = [
+            'user_id' => $user->id,
+            'name' => trim($user->firstname.' '.$user->lastname),
+            'email' => $user->email,
+            'api_key_hash' => ApiClient::hashApiKey($rawKey),
+            'api_key_created_at' => now(),
+            'is_active' => true,
+        ];
+
+        if (! $apiClient) {
+            $apiClient = ApiClient::create($attributes + ['requests_count' => 0]);
+        } else {
+            $apiClient->fill($attributes)->save();
+        }
+
+        return back()
+            ->with('status', 'API key generated successfully.')
+            ->with('new_api_key', $rawKey);
     }
 }

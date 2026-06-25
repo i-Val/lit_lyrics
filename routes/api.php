@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\LyricController;
 use App\Http\Controllers\Api\TwitterBotController;
 use Illuminate\Http\Request;
@@ -22,8 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::post('auth/register', [ApiAuthController::class, 'register']);
-
     Route::middleware('api.key')->group(function () {
         Route::get('site-config', [LyricController::class, 'siteConfig']);
         Route::get('categories', [LyricController::class, 'categories']);

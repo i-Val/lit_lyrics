@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('dashboard.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('dashboard.profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('dashboard.profile.password');
+    Route::post('/profile/api-key/reset', [ProfileController::class, 'resetApiKey'])->name('dashboard.profile.api-key.reset');
 
     // Settings
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('dashboard.settings.index');

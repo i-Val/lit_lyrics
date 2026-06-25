@@ -23,6 +23,14 @@ class ApiKeyAuth
             return response()->json(['message' => 'Invalid API key.'], 401);
         }
 
+        if ($client->user_id === null || ! $client->user) {
+            return response()->json(['message' => 'API key is not linked to a registered user.'], 403);
+        }
+
+        if (method_exists($client->user, 'hasVerifiedEmail') && ! $client->user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email verification required.'], 403);
+        }
+
         if (! $client->is_active) {
             return response()->json(['message' => 'API client is disabled.'], 403);
         }
@@ -35,6 +43,7 @@ class ApiKeyAuth
         $client->forceFill([
             'last_used_at' => now(),
             'last_used_ip' => $request->ip(),
+            'requests_count' => (int) $client->requests_count + 1,
         ])->save();
 
         $request->attributes->set('apiClient', $client);

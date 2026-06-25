@@ -210,7 +210,7 @@ class LyricController extends Controller
             'info' => [
                 'title' => 'Lit Lyrics API',
                 'version' => '1.0.0',
-                'description' => 'Public API for Lit Lyrics (songs, categories, site config, and mass selection).',
+                'description' => 'API for Lit Lyrics (songs, categories, site config, and mass selection). API keys are generated from the user dashboard after registration.',
             ],
             'servers' => [
                 ['url' => $appUrl.'/api', 'description' => 'API base URL'],
@@ -219,55 +219,6 @@ class LyricController extends Controller
                 ['ApiKeyAuth' => []],
             ],
             'paths' => [
-                '/v1/auth/register' => [
-                    'post' => [
-                        'summary' => 'Register for an API key',
-                        'security' => [],
-                        'requestBody' => [
-                            'required' => true,
-                            'content' => [
-                                'application/json' => [
-                                    'schema' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'name' => ['type' => 'string'],
-                                            'email' => ['type' => 'string', 'format' => 'email'],
-                                        ],
-                                        'required' => ['name', 'email'],
-                                    ],
-                                ],
-                                'application/x-www-form-urlencoded' => [
-                                    'schema' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'name' => ['type' => 'string'],
-                                            'email' => ['type' => 'string', 'format' => 'email'],
-                                        ],
-                                        'required' => ['name', 'email'],
-                                    ],
-                                ],
-                            ],
-                        ],
-                        'responses' => [
-                            '201' => [
-                                'description' => 'Created',
-                                'content' => [
-                                    'application/json' => [
-                                        'schema' => ['$ref' => '#/components/schemas/ApiRegistrationResponse'],
-                                    ],
-                                ],
-                            ],
-                            '422' => [
-                                'description' => 'Validation Error',
-                                'content' => [
-                                    'application/json' => [
-                                        'schema' => ['$ref' => '#/components/schemas/Error'],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
                 '/v1/site-config' => [
                     'get' => [
                         'summary' => 'Get public site configuration',
@@ -617,25 +568,6 @@ class LyricController extends Controller
                             'total' => ['type' => 'integer'],
                         ],
                         'required' => ['current_page', 'data', 'last_page', 'path', 'per_page', 'total'],
-                    ],
-                    'ApiRegistrationResponse' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'api_key' => ['type' => 'string'],
-                            'client' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'id' => ['type' => 'integer'],
-                                    'name' => ['type' => 'string'],
-                                    'email' => ['type' => 'string', 'format' => 'email'],
-                                    'is_active' => ['type' => 'boolean'],
-                                    'subscription_required' => ['type' => 'boolean'],
-                                    'subscription_expires_at' => ['type' => 'string', 'nullable' => true],
-                                ],
-                                'required' => ['id', 'name', 'email', 'is_active', 'subscription_required'],
-                            ],
-                        ],
-                        'required' => ['api_key', 'client'],
                     ],
                 ],
             ],

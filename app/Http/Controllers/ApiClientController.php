@@ -64,6 +64,7 @@ class ApiClientController extends Controller
 
         $apiClient->update([
             'api_key_hash' => ApiClient::hashApiKey($rawKey),
+            'api_key_created_at' => now(),
         ]);
 
         return redirect()

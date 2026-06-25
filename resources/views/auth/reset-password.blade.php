@@ -5,9 +5,7 @@
             <div class="section-heading">
                 <h2 class="section-title">Reset Password</h2>
             </div>
-            @if($errors->any())
-                <div class="icon-block-description">{{ $errors->first() }}</div>
-            @endif
+            @include('partials.alert')
             <form method="POST" action="{{ route('password.update') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}" />

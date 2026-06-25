@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Throwable;
+use App\Models\ApiClient;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -62,20 +63,47 @@ class AuthController extends Controller
         try {
             $validated = $request->validated();
 
-            $user = User::create([
-                'firstname' => $validated['firstname'],
-                'lastname' => $validated['lastname'],
-                'email' => $validated['email'],
-                'password' => $validated['password'],
-            ]);
+            $rawKey = ApiClient::generateApiKey();
+            $user = null;
 
-            event(new Registered($user));
+            DB::transaction(function () use ($validated, $rawKey, &$user) {
+                $user = User::create([
+                    'firstname' => $validated['firstname'],
+                    'lastname' => $validated['lastname'],
+                    'email' => $validated['email'],
+                    'password' => $validated['password'],
+                ]);
 
-            $user->sendEmailVerificationNotification();
+                ApiClient::updateOrCreate(
+                    ['email' => $validated['email']],
+                    [
+                        'user_id' => $user->id,
+                        'name' => trim($validated['firstname'].' '.$validated['lastname']),
+                        'api_key_hash' => ApiClient::hashApiKey($rawKey),
+                        'api_key_created_at' => now(),
+                        'is_active' => true,
+                    ]
+                );
+            });
+
+            $verificationSent = false;
+            try {
+                event(new Registered($user));
+                $verificationSent = true;
+            } catch (Throwable $exception) {
+            }
 
             Auth::login($user);
 
-            return redirect()->route('verification.notice')->with('status', 'verification-link-sent');
+            $redirect = redirect()
+                ->route('verification.notice')
+                ->with('new_api_key', $rawKey);
+
+            if ($verificationSent) {
+                $redirect = $redirect->with('status', 'verification-link-sent');
+            }
+
+            return $redirect;
         } catch(Throwable $exception) {
             return back()->with('error', $exception->getMessage());
         }

@@ -5,12 +5,7 @@
             <div class="section-heading">
                 <h2 class="section-title">Login</h2>
             </div>
-            @if(session('status'))
-                <div class="icon-block-description">{{ session('status') }}</div>
-            @endif
-            @if($errors->any())
-                <div class="icon-block-description">{{ $errors->first() }}</div>
-            @endif
+            @include('partials.alert')
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group mb-2">

@@ -5,9 +5,7 @@
             <div class="section-heading">
                 <h2 class="section-title">Register</h2>
             </div>
-            @if($errors->any())
-                <div class="icon-block-description">{{ $errors->first() }}</div>
-            @endif
+            @include('partials.alert')
             <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <div class="form-group mb-2">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class ApiClient extends Model
@@ -11,18 +12,22 @@ class ApiClient extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'api_key_hash',
+        'api_key_created_at',
         'is_active',
         'subscription_plan',
         'subscription_expires_at',
         'last_used_at',
         'last_used_ip',
+        'requests_count',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'api_key_created_at' => 'datetime',
         'subscription_expires_at' => 'datetime',
         'last_used_at' => 'datetime',
     ];
@@ -39,6 +44,11 @@ class ApiClient extends Model
     public static function hashApiKey(string $apiKey): string
     {
         return hash_hmac('sha256', $apiKey, (string) config('app.key', ''));
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function isSubscriptionActive(): bool
