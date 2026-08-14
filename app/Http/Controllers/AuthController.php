@@ -95,6 +95,28 @@ class AuthController extends Controller
 
             Auth::login($user);
 
+            // Send welcome notification to user
+            $user->notify(new \App\Notifications\SystemNotification(
+                'Welcome to Lit Lyrics! 🎉',
+                'We are excited to have you here. Explore our songs and documentation!',
+                'smile',
+                'success',
+                route('dashboard.index')
+            ));
+
+            // Notify all admins
+            $admins = User::whereIn('role', ['admin', 'super admin'])->get();
+            $adminNotification = new \App\Notifications\SystemNotification(
+                'New User Registered',
+                "{$user->firstname} {$user->lastname} has registered an account.",
+                'user-plus',
+                'info',
+                route('dashboard.users.index')
+            );
+            foreach ($admins as $admin) {
+                $admin->notify($adminNotification);
+            }
+
             $redirect = redirect()
                 ->route('verification.notice')
                 ->with('new_api_key', $rawKey);

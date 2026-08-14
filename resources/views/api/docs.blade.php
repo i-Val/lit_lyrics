@@ -948,6 +948,11 @@ curl_close($curl);</code></pre>
     <span class="property">"twitter"</span><span class="punctuation">:</span> <span class="string">"https://twitter.com/litlyrics"</span><span class="punctuation">,</span>
     <span class="property">"instagram"</span><span class="punctuation">:</span> <span class="string">"https://instagram.com/litlyrics"</span>
   <span class="punctuation">}</span><span class="punctuation">,</span>
+  <span class="property">"contact"</span><span class="punctuation">:</span> <span class="punctuation">{</span>
+    <span class="property">"email"</span><span class="punctuation">:</span> <span class="string">"contact@litlyrics.com"</span><span class="punctuation">,</span>
+    <span class="property">"phone"</span><span class="punctuation">:</span> <span class="string">"+1 (555) 019-2834"</span><span class="punctuation">,</span>
+    <span class="property">"address"</span><span class="punctuation">:</span> <span class="string">"123 Liturgy Way, Hymn City, HC 94025"</span>
+  <span class="punctuation">}</span><span class="punctuation">,</span>
   <span class="property">"maintenance_mode"</span><span class="punctuation">:</span> <span class="keyword">false</span>
 <span class="punctuation">}</span></code></pre>
                     </div>

@@ -136,6 +136,11 @@ class LyricController extends Controller
                 'twitter' => Setting::get('social_twitter'),
                 'instagram' => Setting::get('social_instagram'),
             ],
+            'contact' => [
+                'email' => Setting::get('contact_email'),
+                'phone' => Setting::get('contact_phone'),
+                'address' => Setting::get('contact_address'),
+            ],
             'maintenance_mode' => Setting::get('maintenance_mode', '0') === '1',
         ]);
     }
@@ -617,9 +622,17 @@ class LyricController extends Controller
                                     'instagram' => ['type' => 'string', 'nullable' => true],
                                 ],
                             ],
+                            'contact' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'email' => ['type' => 'string', 'nullable' => true],
+                                    'phone' => ['type' => 'string', 'nullable' => true],
+                                    'address' => ['type' => 'string', 'nullable' => true],
+                                ],
+                            ],
                             'maintenance_mode' => ['type' => 'boolean'],
                         ],
-                        'required' => ['social', 'maintenance_mode'],
+                        'required' => ['social', 'contact', 'maintenance_mode'],
                     ],
                     'MassSelectionRequest' => [
                         'type' => 'object',

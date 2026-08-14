@@ -44,6 +44,14 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
+        $user->notify(new \App\Notifications\SystemNotification(
+            'Profile Updated',
+            'Your profile information has been successfully updated.',
+            'user',
+            'info',
+            route('dashboard.profile.edit')
+        ));
+
         return back()->with('status', 'Profile updated successfully.');
     }
 
@@ -53,10 +61,19 @@ class ProfileController extends Controller
     public function updatePassword(ProfilePasswordUpdateRequest $request)
     {
         $validated = $request->validated();
+        $user = Auth::user();
 
-        Auth::user()->update([
+        $user->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        $user->notify(new \App\Notifications\SystemNotification(
+            'Password Changed',
+            'Your password was changed successfully.',
+            'lock',
+            'warning',
+            route('dashboard.profile.edit')
+        ));
 
         return back()->with('status', 'Password updated successfully.');
     }
@@ -85,6 +102,14 @@ class ProfileController extends Controller
         } else {
             $apiClient->fill($attributes)->save();
         }
+
+        $user->notify(new \App\Notifications\SystemNotification(
+            'API Key Generated',
+            'You have successfully generated a new API key.',
+            'key',
+            'success',
+            route('dashboard.profile.edit')
+        ));
 
         return back()
             ->with('status', 'API key generated successfully.')

@@ -51,90 +51,79 @@
             <ul class="nav navbar-nav align-items-center ml-auto">
                
                 
-                <li class="nav-item dropdown dropdown-notification mr-25"><a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"><i class="ficon" data-feather="bell"></i><span class="badge badge-pill badge-danger badge-up">5</span></a>
+                @php
+                    $unreadNotifications = Auth::user()->unreadNotifications;
+                    $unreadCount = $unreadNotifications->count();
+                @endphp
+                <li class="nav-item dropdown dropdown-notification mr-25">
+                    <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
+                        <i class="ficon" data-feather="bell"></i>
+                        @if($unreadCount > 0)
+                            <span class="badge badge-pill badge-danger badge-up">{{ $unreadCount }}</span>
+                        @endif
+                    </a>
                     <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                         <li class="dropdown-menu-header">
                             <div class="dropdown-header d-flex">
                                 <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
-                                <div class="badge badge-pill badge-light-primary">5 New</div>
+                                <div class="badge badge-pill badge-light-primary">{{ $unreadCount }} New</div>
                             </div>
                         </li>
-                        <li class="scrollable-container media-list"><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar" width="32" height="32"></div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">Congratulation Sam 🎉</span>winner!</p><small class="notification-text"> Won the monthly best seller badge.</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" alt="avatar" width="32" height="32"></div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">New message</span>&nbsp;received</p><small class="notification-text"> You have 10 unread messages</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content">MD</div>
+                        <li class="scrollable-container media-list">
+                            @forelse($unreadNotifications as $notification)
+                                @php
+                                    $data = $notification->data;
+                                    $icon = $data['icon'] ?? 'bell';
+                                    $type = $data['type'] ?? 'info';
+                                    $bgClass = 'bg-light-primary';
+                                    if ($type === 'danger') $bgClass = 'bg-light-danger';
+                                    elseif ($type === 'warning') $bgClass = 'bg-light-warning';
+                                    elseif ($type === 'success') $bgClass = 'bg-light-success';
+                                @endphp
+                                <a class="d-flex" href="{{ $data['link'] ?? 'javascript:void(0)' }}">
+                                    <div class="media d-flex align-items-start">
+                                        <div class="media-left">
+                                            <div class="avatar {{ $bgClass }}">
+                                                <div class="avatar-content">
+                                                    <i class="avatar-icon" data-feather="{{ $icon }}"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="media-heading">
+                                                <span class="font-weight-bolder">{{ $data['title'] }}</span>
+                                            </p>
+                                            <small class="notification-text">{{ $data['message'] }}</small>
+                                            <small class="d-block text-muted mt-25">{{ $notification->created_at->diffForHumans() }}</small>
                                         </div>
                                     </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">Revised Order 👋</span>&nbsp;checkout</p><small class="notification-text"> MD Inc. order updated</small>
-                                    </div>
+                                </a>
+                            @empty
+                                <div class="media d-flex align-items-center justify-content-center p-2">
+                                    <p class="mb-0 text-muted">No new notifications</p>
                                 </div>
-                            </a>
-                            <div class="media d-flex align-items-center">
-                                <h6 class="font-weight-bolder mr-auto mb-0">System Notifications</h6>
-                                <div class="custom-control custom-control-primary custom-switch">
-                                    <input class="custom-control-input" id="systemNotification" type="checkbox" checked="">
-                                    <label class="custom-control-label" for="systemNotification"></label>
-                                </div>
-                            </div><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">Server down</span>&nbsp;registered</p><small class="notification-text"> USA Server is down due to hight CPU usage</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-success">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="check"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">Sales report</span>&nbsp;generated</p><small class="notification-text"> Last month sales report generated</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-warning">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="alert-triangle"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading"><span class="font-weight-bolder">High memory</span>&nbsp;usage</p><small class="notification-text"> BLR Server using high memory</small>
-                                    </div>
-                                </div>
-                            </a>
+                            @endforelse
                         </li>
-                        <li class="dropdown-menu-footer"><a class="btn btn-primary btn-block" href="javascript:void(0)">Read all notifications</a></li>
+                        @if($unreadCount > 0)
+                            <li class="dropdown-menu-footer">
+                                <form action="{{ route('dashboard.notifications.mark-all-read') }}" method="POST" class="d-block px-1 py-50">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary btn-block btn-sm">Mark all as read</button>
+                                </form>
+                            </li>
+                        @endif
                     </ul>
                 </li>
-                <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="{{asset('app-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+                <li class="nav-item dropdown dropdown-user">
+                    <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="user-nav d-sm-flex d-none">
+                            <span class="user-name font-weight-bolder">{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</span>
+                            <span class="user-status">{{ ucfirst(Auth::user()->role) }}</span>
+                        </div>
+                        <span class="avatar">
+                            <img class="round" src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->firstname . ' ' . Auth::user()->lastname) . '&color=7F9CF5&background=EBF4FF' }}" alt="avatar" height="40" width="40">
+                            <span class="avatar-status-online"></span>
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user"><a class="dropdown-item" href="{{ route('dashboard.profile.edit') }}"><i class="mr-50" data-feather="user"></i> Profile</a>
                         <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings.html"><i class="mr-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="{{ route('logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a>

@@ -84,6 +84,7 @@ Route::get('e', [SongController::class, 'extractFromTxt']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::post('/notifications/mark-all-read', [DashboardController::class, 'markAllNotificationsRead'])->name('dashboard.notifications.mark-all-read');
     Route::get('/lyrics', [SongController::class, 'index'])->name('dashboard.lyric.list');
 
     // Profile Management (All users can manage their own profile and API keys)

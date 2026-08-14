@@ -66,6 +66,19 @@ class SongController extends Controller
                 );
             }
 
+            // Notify all users about new song:
+            $users = \App\Models\User::all();
+            $notification = new \App\Notifications\SystemNotification(
+                'New Song Added 🎵',
+                "\"{$request->title}\" has been added to the database.",
+                'music',
+                'success',
+                url("/lyric/{$saved_song->id}")
+            );
+            foreach ($users as $u) {
+                $u->notify($notification);
+            }
+
             return back()->with('success', 'lyrics added successfully!');
             // return $verses;
             // array_shift($verses);
@@ -100,6 +113,19 @@ class SongController extends Controller
             }
 
             $song->update($data);
+
+            // Notify all users about song update:
+            $users = \App\Models\User::all();
+            $notification = new \App\Notifications\SystemNotification(
+                'Song Updated ✏️',
+                "\"{$request->title}\" has been updated.",
+                'edit-2',
+                'info',
+                url("/lyric/{$song->id}")
+            );
+            foreach ($users as $u) {
+                $u->notify($notification);
+            }
 
             return redirect()->route('dashboard.lyric.edit', $song->id)->with('success', 'Song updated successfully!');
         } catch (Throwable $exception) {

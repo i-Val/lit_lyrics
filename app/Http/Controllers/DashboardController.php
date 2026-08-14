@@ -28,4 +28,10 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact('totalSongs', 'totalUsers', 'totalCategories', 'songsByCategory', 'recentSongs'));
     }
+
+    public function markAllNotificationsRead(Request $request)
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->back()->with('success', 'All notifications marked as read.');
+    }
 }

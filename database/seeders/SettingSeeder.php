@@ -72,6 +72,24 @@ class SettingSeeder extends Seeder
                 'group' => 'api',
                 'type' => 'boolean',
             ],
+            [
+                'key' => 'contact_email',
+                'value' => 'contact@litlyrics.com',
+                'group' => 'contact',
+                'type' => 'email',
+            ],
+            [
+                'key' => 'contact_phone',
+                'value' => '+1 (555) 019-2834',
+                'group' => 'contact',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'contact_address',
+                'value' => '123 Liturgy Way, Hymn City, HC 94025',
+                'group' => 'contact',
+                'type' => 'textarea',
+            ],
         ];
 
         foreach ($settings as $setting) {

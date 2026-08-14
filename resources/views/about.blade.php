@@ -30,6 +30,27 @@
             <p>
                 Thank you for being a part of our community. Together, let's make every celebration more meaningful through music.
             </p>
+            <br>
+            <h3>Contact Us</h3>
+            <p>
+                Have questions, feedback, or need support? Reach out to us:
+            </p>
+            @php
+                $contactEmail = \App\Models\Setting::get('contact_email');
+                $contactPhone = \App\Models\Setting::get('contact_phone');
+                $contactAddress = \App\Models\Setting::get('contact_address');
+            @endphp
+            <ul style="list-style-type: none; margin-left: 0; padding-left: 0; line-height: 1.8;">
+                @if($contactEmail)
+                    <li><strong>Email:</strong> <a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></li>
+                @endif
+                @if($contactPhone)
+                    <li><strong>Phone:</strong> {{ $contactPhone }}</li>
+                @endif
+                @if($contactAddress)
+                    <li><strong>Address:</strong> {!! nl2br(e($contactAddress)) !!}</li>
+                @endif
+            </ul>
         </div>
     </div>
 </div>
