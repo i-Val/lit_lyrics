@@ -40,4 +40,6 @@ Route::middleware('api.key')->group(function () {
     Route::get('song/search', [LyricController::class, 'searchSong']);
     Route::get('song/{id}', [LyricController::class, 'viewSong']);
 });
+
+//Telegram bot routes
 Route::post('bot/lyric', [TwitterBotController::class, 'get_lyrics']);
