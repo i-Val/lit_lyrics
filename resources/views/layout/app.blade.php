@@ -125,8 +125,14 @@
                             <span class="avatar-status-online"></span>
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user"><a class="dropdown-item" href="{{ route('dashboard.profile.edit') }}"><i class="mr-50" data-feather="user"></i> Profile</a>
-                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings.html"><i class="mr-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="{{ route('logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
+                        <a class="dropdown-item" href="{{ route('dashboard.profile.edit') }}"><i class="mr-50" data-feather="user"></i> Profile</a>
+                        @if(Auth::user()->hasRole('super admin'))
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('dashboard.settings.index') }}"><i class="mr-50" data-feather="settings"></i> Settings</a>
+                        @endif
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a>
                     </div>
                 </li>
             </ul>
