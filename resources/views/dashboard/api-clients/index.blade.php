@@ -24,13 +24,17 @@
             <div class="card">
                 <div class="card-body">
                     <form method="GET" action="{{ route('dashboard.api-clients.index') }}" class="mb-2">
-                        <div class="form-row align-items-center">
-                            <div class="col-sm-8 my-1">
-                                <input type="text" class="form-control" name="q" value="{{ $q }}" placeholder="Search by name or email">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 col-12 mb-1 mb-md-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="q" value="{{ $q }}" placeholder="Search by name or email...">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4 my-1 text-right">
-                                <button type="submit" class="btn btn-primary">Search</button>
-                                <a href="{{ route('dashboard.api-clients.index') }}" class="btn btn-outline-secondary">Reset</a>
+                            <div class="col-md-6 col-12 text-md-right text-left">
+                                <a href="{{ route('dashboard.api-clients.index') }}" class="btn btn-outline-secondary">Reset Filter</a>
                             </div>
                         </div>
                     </form>
@@ -72,12 +76,18 @@
                                             {{ $client->last_used_at ? $client->last_used_at->format('Y-m-d H:i') : '-' }}
                                         </td>
                                         <td class="text-right">
-                                            <a href="{{ route('dashboard.api-clients.edit', $client) }}" class="btn btn-sm btn-outline-secondary">Manage</a>
-                                            <form action="{{ route('dashboard.api-clients.destroy', $client) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this API client?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                            </form>
+                                            <div class="d-inline-flex align-items-center">
+                                                <a href="{{ route('dashboard.api-clients.edit', $client) }}" class="btn btn-icon btn-sm btn-outline-primary mr-50" title="Manage">
+                                                    <i data-feather="settings"></i>
+                                                </a>
+                                                <form action="{{ route('dashboard.api-clients.destroy', $client) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this API client?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-icon btn-sm btn-outline-danger" title="Delete">
+                                                        <i data-feather="trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty

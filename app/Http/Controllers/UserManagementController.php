@@ -27,6 +27,11 @@ class UserManagementController extends Controller
     {
         $validated = $request->validated();
 
+        // Security check: Only super admin can assign the 'super admin' role.
+        if ($validated['role'] === 'super admin' && Auth::user()->role !== 'super admin') {
+            return back()->withInput()->withErrors(['role' => 'Only super admins can assign the super admin role.']);
+        }
+
         // Create user with a temporary random password
         $tempPassword = Str::random(12);
         $user = User::create([
@@ -34,6 +39,7 @@ class UserManagementController extends Controller
             'lastname' => $validated['lastname'],
             'email' => $validated['email'],
             'password' => $tempPassword,
+            'role' => $validated['role'],
         ]);
 
         // Send password reset link so the user can set their own password
@@ -44,12 +50,27 @@ class UserManagementController extends Controller
 
     public function edit(User $user)
     {
+        // Security check: Only super admin can edit a super admin account.
+        if ($user->role === 'super admin' && Auth::user()->role !== 'super admin') {
+            return redirect()->route('dashboard.users.index')->withErrors(['Only super admins can edit super admin accounts.']);
+        }
+
         return view('dashboard.users.edit', compact('user'));
     }
 
     public function update(UserUpdateRequest $request, User $user)
     {
         $validated = $request->validated();
+
+        // Security check: Only super admin can modify a super admin account.
+        if ($user->role === 'super admin' && Auth::user()->role !== 'super admin') {
+            return redirect()->route('dashboard.users.index')->withErrors(['Only super admins can modify super admin accounts.']);
+        }
+
+        // Security check: Only super admin can promote to super admin.
+        if ($validated['role'] === 'super admin' && Auth::user()->role !== 'super admin') {
+            return back()->withInput()->withErrors(['role' => 'Only super admins can assign the super admin role.']);
+        }
 
         $user->update($validated);
 
@@ -61,6 +82,12 @@ class UserManagementController extends Controller
         if (Auth::id() === $user->id) {
             return back()->withErrors(['You cannot delete your own account.']);
         }
+
+        // Security check: Only super admin can delete a super admin account.
+        if ($user->role === 'super admin' && Auth::user()->role !== 'super admin') {
+            return redirect()->route('dashboard.users.index')->withErrors(['Only super admins can delete super admin accounts.']);
+        }
+
         $user->delete();
         return redirect()->route('dashboard.users.index')->with('status', 'User deleted.');
     }

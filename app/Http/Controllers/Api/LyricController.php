@@ -219,6 +219,103 @@ class LyricController extends Controller
                 ['ApiKeyAuth' => []],
             ],
             'paths' => [
+                '/v1/auth/register' => [
+                    'post' => [
+                        'summary' => 'Register a new API client',
+                        'security' => [],
+                        'requestBody' => [
+                            'required' => true,
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'name' => ['type' => 'string', 'example' => 'Demo Client'],
+                                            'email' => ['type' => 'string', 'format' => 'email', 'example' => 'client@example.com'],
+                                        ],
+                                        'required' => ['name', 'email'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'responses' => [
+                            '201' => [
+                                'description' => 'Created',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            'type' => 'object',
+                                            'properties' => [
+                                                'api_key' => ['type' => 'string'],
+                                                'client' => [
+                                                    'type' => 'object',
+                                                    'properties' => [
+                                                        'id' => ['type' => 'integer'],
+                                                        'name' => ['type' => 'string'],
+                                                        'email' => ['type' => 'string'],
+                                                        'is_active' => ['type' => 'boolean'],
+                                                        'subscription_required' => ['type' => 'boolean'],
+                                                        'subscription_expires_at' => ['type' => 'string', 'format' => 'date-time', 'nullable' => true],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            '422' => [
+                                'description' => 'Validation Error',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            'type' => 'object',
+                                            'properties' => [
+                                                'message' => ['type' => 'string'],
+                                                'errors' => [
+                                                    'type' => 'object',
+                                                    'additionalProperties' => [
+                                                        'type' => 'array',
+                                                        'items' => ['type' => 'string'],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                '/v1/auth/regenerate-key' => [
+                    'post' => [
+                        'summary' => 'Regenerate the API key',
+                        'description' => 'Generates a new API key and invalidates the one used to make this request.',
+                        'responses' => [
+                            '200' => [
+                                'description' => 'OK',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            'type' => 'object',
+                                            'properties' => [
+                                                'api_key' => ['type' => 'string'],
+                                                'message' => ['type' => 'string'],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            '401' => [
+                                'description' => 'Unauthorized',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => ['$ref' => '#/components/schemas/Error'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
                 '/v1/site-config' => [
                     'get' => [
                         'summary' => 'Get public site configuration',

@@ -21,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
+    Route::post('auth/register', [\App\Http\Controllers\Api\ApiAuthController::class, 'register']);
+
     Route::middleware('api.key')->group(function () {
+        Route::post('auth/regenerate-key', [\App\Http\Controllers\Api\ApiAuthController::class, 'regenerateKey']);
         Route::get('site-config', [LyricController::class, 'siteConfig']);
         Route::get('categories', [LyricController::class, 'categories']);
         Route::get('songs', [LyricController::class, 'index']);

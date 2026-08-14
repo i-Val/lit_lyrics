@@ -83,45 +83,52 @@ Route::middleware('auth')->group(function () {
 Route::get('e', [SongController::class, 'extractFromTxt']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
-    Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/lyric', [SongController::class, 'create'])->name('dashboard.lyric.create');
-    Route::post('/lyric', [SongController::class, 'addSong'])->name('dashboard.lyric.store');
     Route::get('/lyrics', [SongController::class, 'index'])->name('dashboard.lyric.list');
-    Route::get('/lyric/{id}/edit', [SongController::class, 'editSong'])->name('dashboard.lyric.edit');
-    Route::put('/lyric/{id}', [SongController::class, 'updateSong'])->name('dashboard.lyric.update');
-    Route::delete('/lyric/{id}', [SongController::class, 'delete'])->name('dashboard.lyric.delete');
 
-    // User management
-    Route::get('/users', [UserManagementController::class, 'index'])->name('dashboard.users.index');
-    Route::get('/users/create', [UserManagementController::class, 'create'])->name('dashboard.users.create');
-    Route::post('/users', [UserManagementController::class, 'store'])->name('dashboard.users.store');
-    Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('dashboard.users.edit');
-    Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('dashboard.users.update');
-    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('dashboard.users.destroy');
-    Route::post('/users/{user}/reset-link', [UserManagementController::class, 'sendResetLink'])->name('dashboard.users.sendResetLink');
-
-    // Profile Management
+    // Profile Management (All users can manage their own profile and API keys)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('dashboard.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('dashboard.profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('dashboard.profile.password');
     Route::post('/profile/api-key/reset', [ProfileController::class, 'resetApiKey'])->name('dashboard.profile.api-key.reset');
 
-    // Settings
-    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('dashboard.settings.index');
-    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('dashboard.settings.update');
+    // Admin & Super Admin Only
+    Route::middleware('role:admin,super admin')->group(function () {
+        Route::get('lyric/collection/create', [SongController::class, 'collection_form']);
+        Route::get('lyric/collection/download', [SongController::class, 'collection_download']);
+        Route::get('/lyric', [SongController::class, 'create'])->name('dashboard.lyric.create');
+        Route::post('/lyric', [SongController::class, 'addSong'])->name('dashboard.lyric.store');
+        Route::get('/lyric/{id}/edit', [SongController::class, 'editSong'])->name('dashboard.lyric.edit');
+        Route::put('/lyric/{id}', [SongController::class, 'updateSong'])->name('dashboard.lyric.update');
+        Route::delete('/lyric/{id}', [SongController::class, 'delete'])->name('dashboard.lyric.delete');
 
-    // Category Management
-    Route::resource('categories', \App\Http\Controllers\CategoryController::class)->names('dashboard.categories');
+        // User management
+        Route::get('/users', [UserManagementController::class, 'index'])->name('dashboard.users.index');
+        Route::get('/users/create', [UserManagementController::class, 'create'])->name('dashboard.users.create');
+        Route::post('/users', [UserManagementController::class, 'store'])->name('dashboard.users.store');
+        Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('dashboard.users.edit');
+        Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('dashboard.users.update');
+        Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('dashboard.users.destroy');
+        Route::post('/users/{user}/reset-link', [UserManagementController::class, 'sendResetLink'])->name('dashboard.users.sendResetLink');
 
-    // Music Sheet Management
-    Route::resource('music-sheets', \App\Http\Controllers\MusicSheetController::class)->names('dashboard.music-sheets');
+        // Category Management
+        Route::resource('categories', \App\Http\Controllers\CategoryController::class)->names('dashboard.categories');
 
-    // API Clients
-    Route::get('/api-clients', [ApiClientController::class, 'index'])->name('dashboard.api-clients.index');
-    Route::get('/api-clients/{apiClient}/edit', [ApiClientController::class, 'edit'])->name('dashboard.api-clients.edit');
-    Route::put('/api-clients/{apiClient}', [ApiClientController::class, 'update'])->name('dashboard.api-clients.update');
-    Route::delete('/api-clients/{apiClient}', [ApiClientController::class, 'destroy'])->name('dashboard.api-clients.destroy');
-    Route::post('/api-clients/{apiClient}/reset-key', [ApiClientController::class, 'resetKey'])->name('dashboard.api-clients.resetKey');
+        // Music Sheet Management
+        Route::resource('music-sheets', \App\Http\Controllers\MusicSheetController::class)->names('dashboard.music-sheets');
+
+        // API Clients
+        Route::get('/api-clients', [ApiClientController::class, 'index'])->name('dashboard.api-clients.index');
+        Route::get('/api-clients/{apiClient}/edit', [ApiClientController::class, 'edit'])->name('dashboard.api-clients.edit');
+        Route::put('/api-clients/{apiClient}', [ApiClientController::class, 'update'])->name('dashboard.api-clients.update');
+        Route::delete('/api-clients/{apiClient}', [ApiClientController::class, 'destroy'])->name('dashboard.api-clients.destroy');
+        Route::post('/api-clients/{apiClient}/reset-key', [ApiClientController::class, 'resetKey'])->name('dashboard.api-clients.resetKey');
+    });
+
+    // Super Admin Only
+    Route::middleware('role:super admin')->group(function () {
+        // Settings
+        Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('dashboard.settings.index');
+        Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('dashboard.settings.update');
+    });
 });

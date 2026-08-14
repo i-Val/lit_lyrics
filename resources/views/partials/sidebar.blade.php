@@ -1,15 +1,17 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-        <div class="navbar-header">
-            <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('dashboard.index') }}"><span class="brand-logo">
-                            @php
-                                $siteLogo = \App\Models\Setting::get('site_logo');
-                                $logoUrl = $siteLogo ? asset(str_replace('public/', 'storage/', $siteLogo)) : null;
-                            @endphp
-                            
-                            @if($logoUrl)
-                                <img src="{{ $logoUrl }}" alt="Logo" style="max-height: 30px;">
-                            @else
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mr-auto">
+                <a class="navbar-brand" href="{{ route('dashboard.index') }}">
+                    <span class="brand-logo">
+                        @php
+                            $siteLogo = \App\Models\Setting::get('site_logo');
+                            $logoUrl = $siteLogo ? asset(str_replace('public/', 'storage/', $siteLogo)) : null;
+                        @endphp
+                        
+                        @if($logoUrl)
+                            <img src="{{ $logoUrl }}" alt="Logo" style="max-height: 30px;">
+                        @else
                             <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
@@ -33,64 +35,131 @@
                                     </g>
                                 </g>
                             </svg>
-                            @endif
-                            </span>
-                        <h2 class="brand-text">LIT-LYRICS</h2>
-                    </a></li>
-                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
-            </ul>
-        </div>
-        <div class="shadow-bottom"></div>
-        <div class="main-menu-content">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.index') }}"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Dashboard</span></a>
-                </li>
-                <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Publication</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Pages">Lyrics</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.lyric.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.lyric.list') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="grid"></i><span class="menu-title text-truncate" data-i18n="Pages">Categories</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.categories.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">List</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.categories.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="music"></i><span class="menu-title text-truncate" data-i18n="Pages">Music Sheet</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Create</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">View</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <!--<li class=" navigation-header"><span data-i18n="User Interface">User Interface</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="ui-typography.html"><i data-feather="type"></i><span class="menu-title text-truncate" data-i18n="Typography">Typography</span></a>
-                </li>-->
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Pages">Users</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.users.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">User List</span></a>
-                           
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('dashboard.users.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Authentication">Add User</span></a>
-                           
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.api-clients.index') }}"><i data-feather="key"></i><span class="menu-title text-truncate" data-i18n="API Clients">API Clients</span></a>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{ route('dashboard.settings.index') }}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Settings">Settings</span></a>
-                </li>
-            </ul>
-        </div>
+                        @endif
+                    </span>
+                    <h2 class="brand-text"><span>LIT</span>-<span class="highlight">LYRICS</span></h2>
+                    <span class="brand-settings-icon"><i data-feather="settings"></i></span>
+                </a>
+            </li>
+            <li class="nav-item nav-toggle">
+                <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+                    <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+                    <i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc" data-ticon="disc"></i>
+                </a>
+            </li>
+        </ul>
     </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="{{ route('dashboard.index') }}">
+                    <i data-feather="type"></i>
+                    <span class="menu-title text-truncate" data-i18n="Typography">Dashboard</span>
+                </a>
+            </li>
+            <li class="navigation-header">
+                <span data-i18n="Apps &amp; Pages">Publication</span>
+                <i data-feather="more-horizontal"></i>
+            </li>
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="file-text"></i>
+                    <span class="menu-title text-truncate" data-i18n="Pages">Lyrics</span>
+                </a>
+                <ul class="menu-content">
+                    @if(auth()->user()->role !== 'user')
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.lyric.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">Create</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li>
+                        <a class="d-flex align-items-center" href="{{ route('dashboard.lyric.list') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Authentication">View</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @if(auth()->user()->role !== 'user')
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather="grid"></i>
+                        <span class="menu-title text-truncate" data-i18n="Pages">Categories</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.categories.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.categories.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">Create</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather="music"></i>
+                        <span class="menu-title text-truncate" data-i18n="Pages">Music Sheet</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">Create</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.music-sheets.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">View</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#">
+                        <i data-feather="users"></i>
+                        <span class="menu-title text-truncate" data-i18n="Pages">Users</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.users.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">User List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ route('dashboard.users.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="Authentication">Add User</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('dashboard.api-clients.index') }}">
+                        <i data-feather="key"></i>
+                        <span class="menu-title text-truncate" data-i18n="API Clients">API Clients</span>
+                    </a>
+                </li>
+            @endif
+            @if(auth()->user()->role === 'super admin')
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('dashboard.settings.index') }}">
+                        <i data-feather="settings"></i>
+                        <span class="menu-title text-truncate" data-i18n="Settings">Settings</span>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </div>
+</div>

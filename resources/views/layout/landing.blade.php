@@ -134,8 +134,23 @@
                                 <a href="#clients">Clients</a>
                             </li>-->
                             <li>
-                                <a href="#pricing">API Docs</a>
+                                <a href="{{ route('api.docs') }}">API Docs</a>
                             </li>
+                            @auth
+                                <li>
+                                    <a href="{{ route('dashboard.index') }}">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout') }}">Logout</a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ route('login') }}">Login</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('register') }}">Register</a>
+                                </li>
+                            @endauth
                         </ul>
                     </nav>
                     <!--End of Main Navigation-->

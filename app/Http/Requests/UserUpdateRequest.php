@@ -27,6 +27,7 @@ class UserUpdateRequest extends FormRequest
             'firstname' => ['required','string','max:255'],
             'lastname' => ['required','string','max:255'],
             'email' => ['required','email','max:255', Rule::unique('users')->ignore($user->id)],
+            'role' => ['required', 'string', 'in:user,admin,super admin'],
         ];
     }
 }

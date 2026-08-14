@@ -56,7 +56,7 @@
                         <li class="dropdown-menu-header">
                             <div class="dropdown-header d-flex">
                                 <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
-                                <div class="badge badge-pill badge-light-primary">6 New</div>
+                                <div class="badge badge-pill badge-light-primary">5 New</div>
                             </div>
                         </li>
                         <li class="scrollable-container media-list"><a class="d-flex" href="javascript:void(0)">
@@ -271,6 +271,50 @@
                 });
             }
         })
+    </script>
+    <script>
+        (function () {
+            var selectors = [
+                '.content-header',
+                '.card',
+                '.table-responsive',
+                '.breadcrumb-wrapper',
+                '.alert'
+            ];
+
+            var nodes = [];
+            selectors.forEach(function (sel) {
+                try {
+                    nodes = nodes.concat(Array.prototype.slice.call(document.querySelectorAll(sel)));
+                } catch (e) {}
+            });
+
+            nodes.forEach(function (el) {
+                if (!el.classList.contains('ll-reveal')) {
+                    el.classList.add('ll-reveal');
+                }
+            });
+
+            if (!('IntersectionObserver' in window)) {
+                nodes.forEach(function (el) {
+                    el.classList.add('ll-visible');
+                });
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('ll-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+            nodes.forEach(function (el) {
+                observer.observe(el);
+            });
+        })();
     </script>
 </body>
 <!-- END: Body-->

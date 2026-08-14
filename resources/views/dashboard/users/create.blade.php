@@ -44,6 +44,18 @@
                                             <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label for="role">Role</label>
+                                            <select name="role" id="role" class="form-control" required>
+                                                <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>User</option>
+                                                <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                                                @if(auth()->user()->role === 'super admin')
+                                                    <option value="super admin" {{ old('role') === 'super admin' ? 'selected' : '' }}>Super Admin</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-12 mt-2">
                                         <div class="d-flex justify-content-between">
                                             <a href="{{ route('dashboard.users.index') }}" class="btn btn-outline-secondary">Back to Users</a>

@@ -10,7 +10,7 @@ class SongSeeder extends Seeder
 {
     public function run(): void
     {
-        $jsonPath = database_path('seeders/additional_hymns.json');
+        $jsonPath = database_path('seeders/hymn.json');
         
 
         if (!File::exists($jsonPath)) {

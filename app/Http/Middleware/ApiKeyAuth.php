@@ -23,6 +23,17 @@ class ApiKeyAuth
             return response()->json(['message' => 'Invalid API key.'], 401);
         }
 
+        try {
+            \Illuminate\Support\Facades\File::append(
+                storage_path('app/debug.log'),
+                "Client ID: " . $client->id . "\n" .
+                "Client User ID: " . ($client->user_id ?? 'NULL') . "\n" .
+                "Client User exists: " . ($client->user ? 'YES' : 'NO') . "\n" .
+                "Raw key: " . $rawKey . "\n" .
+                "Hash: " . $apiKeyHash . "\n\n"
+            );
+        } catch (\Throwable $e) {}
+
         if ($client->user_id === null || ! $client->user) {
             return response()->json(['message' => 'API key is not linked to a registered user.'], 403);
         }

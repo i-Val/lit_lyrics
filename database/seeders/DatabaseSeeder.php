@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             // Other seeders...
-            \SongSeeder::class,
+            SongSeeder::class,
         ]);
     }
 }

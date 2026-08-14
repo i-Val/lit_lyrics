@@ -50,20 +50,24 @@
                                 <td>{{ $song->category }}</td>
                                 <td>
                                     @if($song->music_sheet)
-                                        <a href="{{ asset(str_replace('public/', 'storage/', $song->music_sheet)) }}" target="_blank" class="btn btn-sm btn-info">View</a>
+                                        <a href="{{ asset(str_replace('public/', 'storage/', $song->music_sheet)) }}" target="_blank" class="btn btn-icon btn-sm btn-outline-info" title="View">
+                                            <i data-feather="eye"></i>
+                                        </a>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('dashboard.music-sheets.edit', $song->id) }}" class="btn btn-sm btn-primary">
-                                        <i data-feather="edit"></i>
-                                    </a>
-                                    <form action="{{ route('dashboard.music-sheets.destroy', $song->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to remove the music sheet from this song?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            <i data-feather="trash-2"></i>
-                                        </button>
-                                    </form>
+                                    <div class="d-inline-flex align-items-center">
+                                        <a href="{{ route('dashboard.music-sheets.edit', $song->id) }}" class="btn btn-icon btn-sm btn-outline-primary mr-50" title="Edit">
+                                            <i data-feather="edit"></i>
+                                        </a>
+                                        <form action="{{ route('dashboard.music-sheets.destroy', $song->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to remove the music sheet from this song?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-icon btn-sm btn-outline-danger" title="Remove Music Sheet">
+                                                <i data-feather="trash-2"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @empty

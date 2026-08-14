@@ -43,12 +43,18 @@
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->created_at?->format('Y-m-d') }}</td>
                                         <td class="text-right">
-                                            <a href="{{ route('dashboard.categories.edit', $category) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                            <form action="{{ route('dashboard.categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this category?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                            </form>
+                                            <div class="d-inline-flex align-items-center">
+                                                <a href="{{ route('dashboard.categories.edit', $category) }}" class="btn btn-icon btn-sm btn-outline-primary mr-50" title="Edit">
+                                                    <i data-feather="edit"></i>
+                                                </a>
+                                                <form action="{{ route('dashboard.categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this category?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-icon btn-sm btn-outline-danger" title="Delete">
+                                                        <i data-feather="trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty

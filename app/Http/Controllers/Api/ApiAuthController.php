@@ -18,7 +18,19 @@ class ApiAuthController extends Controller
 
         $rawKey = ApiClient::generateApiKey();
 
+        $nameParts = explode(' ', $validated['name'], 2);
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => $validated['email']],
+            [
+                'firstname' => $nameParts[0] ?? 'Demo',
+                'lastname' => $nameParts[1] ?? 'Client',
+                'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(16)),
+                'email_verified_at' => now(),
+            ]
+        );
+
         $client = ApiClient::create([
+            'user_id' => $user->id,
             'name' => $validated['name'],
             'email' => $validated['email'],
             'api_key_hash' => ApiClient::hashApiKey($rawKey),
@@ -39,4 +51,27 @@ class ApiAuthController extends Controller
             ],
         ], 201);
     }
+
+    public function regenerateKey(Request $request)
+    {
+        /** @var \App\Models\ApiClient|null $client */
+        $client = $request->attributes->get('apiClient');
+
+        if (! $client) {
+            return response()->json(['message' => 'API client not found.'], 404);
+        }
+
+        $newRawKey = ApiClient::generateApiKey();
+
+        $client->update([
+            'api_key_hash' => ApiClient::hashApiKey($newRawKey),
+            'api_key_created_at' => now(),
+        ]);
+
+        return response()->json([
+            'api_key' => $newRawKey,
+            'message' => 'API key regenerated successfully.',
+        ], 200);
+    }
 }
+

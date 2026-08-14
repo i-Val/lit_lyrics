@@ -42,7 +42,9 @@
                                     <th>Title</th>
                                     <th>Author</th>
                                     <th>created_at</th>
+                                    @if(auth()->user()->role !== 'user')
                                     <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,18 +53,22 @@
                                     <td><a href="lyric/{{$song->id}}"><i class="fa fa-view"></i> {{$song->title}}</a></td>
                                     <td>{{$song->author}}</td>
                                     <td>{{$song->created_at}}</td>
+                                    @if(auth()->user()->role !== 'user')
                                     <td>
-                                        <a href="{{ route('dashboard.lyric.edit', $song->id) }}" class="btn btn-sm btn-outline-primary">
-                                            <i data-feather="edit"></i> Edit
-                                        </a>
-                                        <form action="{{ route('dashboard.lyric.delete', $song->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this song?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                <i data-feather="trash"></i> Delete
-                                            </button>
-                                        </form>
+                                        <div class="d-inline-flex align-items-center">
+                                            <a href="{{ route('dashboard.lyric.edit', $song->id) }}" class="btn btn-icon btn-sm btn-outline-primary mr-50" title="Edit">
+                                                <i data-feather="edit"></i>
+                                            </a>
+                                            <form action="{{ route('dashboard.lyric.delete', $song->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this song?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-icon btn-sm btn-outline-danger" title="Delete">
+                                                    <i data-feather="trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -128,10 +134,17 @@
 @endsection
 
 @section('page-scripts')
-    <script src="{{ asset('app-assets/js/scripts/tables/table-datatables-basic.js') }}"></script>
     <script>
         $(document).ready(function(){
-            $('.datatables-basico').DataTable();
+            $('.datatables-basico').DataTable({
+                dom: '<"d-flex justify-content-between align-items-center mx-0 row mb-1"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row mt-1"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                language: {
+                    paginate: {
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    }
+                }
+            });
         });
     </script>
 @endsection
