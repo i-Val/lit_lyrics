@@ -1,0 +1,201 @@
+/* Dark Mode Override Stylesheet */
+
+/* FOUC prevention support: html.dark or .dark */
+html.dark body {
+    background-color: #121214;
+    color: #e4e6eb;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+    color: #ffffff;
+}
+
+html.dark p {
+    color: #b0b3b8;
+}
+
+/* Secondary Background */
+html.dark .secondary-color {
+    background-color: #1c1c1f !important;
+}
+
+/* Page Border */
+html.dark .page-border div {
+    background-color: #1c1c21 !important;
+}
+html.dark .page-border > .top-border, 
+html.dark .page-border > .right-border, 
+html.dark .page-border > .bottom-border, 
+html.dark .page-border > .left-border {
+    background: #2a2a30 !important;
+}
+
+/* Header & Sticky Solid Navigation */
+html.dark #header {
+    /* If transparent initially, text should be readable */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+html.dark #header nav a, 
+html.dark #header i {
+    color: #ffffff;
+}
+html.dark #header.nav-solid {
+    background-color: #1a1a1e !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid #2a2a30;
+}
+html.dark #header.nav-solid a, 
+html.dark #header.nav-solid i {
+    color: #e4e6eb !important;
+}
+html.dark #header.nav-solid nav a {
+    border-color: #1a1a1e;
+}
+html.dark #header.nav-solid nav a:hover,
+html.dark #header.nav-solid nav a.active {
+    color: #d2b356 !important;
+    border-color: #d2b356 !important;
+}
+
+/* Mobile Navigation */
+html.dark #nav-mobile ul {
+    background-color: #1a1a1e !important;
+    border: 1px solid #2a2a30 !important;
+}
+html.dark #nav-mobile ul li a {
+    color: #e4e6eb !important;
+    border-bottom-color: #2a2a30 !important;
+}
+html.dark #nav-mobile ul li a:hover {
+    background-color: #25252b !important;
+    color: #d2b356 !important;
+}
+html.dark #nav-trigger span {
+    background: #e4e6eb !important;
+}
+
+/* Logo inversion for dark mode */
+html.dark #logo img {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Home banner background dimming overlay for better contrast */
+html.dark #banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("../images/banner-images/banner-image-1.jpg") !important;
+}
+
+/* Buttons */
+html.dark .button, 
+html.dark input[type="submit"] {
+    border-color: #e4e6eb !important;
+    color: #e4e6eb !important;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+}
+html.dark .button:hover, 
+html.dark input[type="submit"]:hover {
+    border-color: #d2b356 !important;
+    color: #d2b356 !important;
+    background-color: rgba(210, 179, 86, 0.1) !important;
+}
+
+/* Inputs & Form Controls */
+html.dark input[type="text"],
+html.dark input[type="email"],
+html.dark input[type="password"],
+html.dark textarea,
+html.dark .form-control {
+    background-color: #1e1e24 !important;
+    border-color: #3a3a42 !important;
+    color: #e4e6eb !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+    color: #888890 !important;
+}
+html.dark label {
+    color: #b0b3b8 !important;
+}
+
+/* Dynamic Search Dropdown Overlays (Home & Lyric Builder) */
+html.dark #home-search-results,
+html.dark #search-results {
+    background-color: #1e1e24 !important;
+    border: 1px solid #3a3a42 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+}
+html.dark #home-search-results div,
+html.dark #search-results div {
+    color: #e4e6eb !important;
+    border-bottom: 1px solid #2a2a32 !important;
+    background-color: #1e1e24 !important;
+}
+html.dark #home-search-results div:hover,
+html.dark #search-results div:hover {
+    background-color: #2a2a32 !important;
+}
+html.dark #home-search-results div small {
+    color: #a0a0ab !important;
+}
+
+/* Lyric Builder Wizard and Modal elements */
+html.dark #wizard-container {
+    color: #e4e6eb;
+}
+html.dark #selected-song-display {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+html.dark .modal-content {
+    background-color: #1a1a1e !important;
+    color: #e4e6eb !important;
+    border: 1px solid #333338 !important;
+}
+html.dark .modal-content h3 {
+    color: #ffffff !important;
+    border-bottom: 1px solid #333338 !important;
+}
+html.dark .modal-content button {
+    background-color: #333338 !important;
+    border-color: #333338 !important;
+}
+
+/* Testimonial & blockquotes styles if any */
+html.dark .testimonial q {
+    color: #e4e6eb !important;
+}
+html.dark .testimonial.classic footer {
+    color: #b0b3b8 !important;
+}
+
+/* Footer Section */
+html.dark #landing-footer {
+    background-color: #121214 !important;
+    border-top: 1px solid #2a2a30 !important;
+}
+html.dark #landing-footer p,
+html.dark #landing-footer a,
+html.dark #landing-footer i {
+    color: #888890 !important;
+}
+html.dark #landing-footer a:hover {
+    color: #d2b356 !important;
+}
+
+/* Preloader styling */
+html.dark #preloader {
+    background-color: #121214 !important;
+}
+
+/* Toggle transition animation */
+.dark-mode-toggle i {
+    transition: transform 0.4s ease;
+}
+.dark-mode-toggle:hover i {
+    transform: rotate(30deg);
+}

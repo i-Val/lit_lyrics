@@ -28,6 +28,18 @@
 
     <!--Google Webfonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Dark Mode Stylesheet -->
+    <link rel="stylesheet" href="{{asset('landing/css/dark-mode.css')}}">
+
+    <script>
+        // Apply theme immediately on load to prevent flash of light theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 <body>
 
@@ -151,6 +163,11 @@
                                     <a href="{{ route('register') }}">Register</a>
                                 </li>
                             @endauth
+                            <li>
+                                <a href="javascript:void(0)" class="dark-mode-toggle" title="Toggle Dark Mode">
+                                    <i class="dark-mode-icon fa fa-moon-o" aria-hidden="true" style="font-size: 1.2em;"></i>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                     <!--End of Main Navigation-->
@@ -217,6 +234,43 @@
 <script src="{{asset('landing/js/lightbox.min.js')}}"></script>
 <script src="{{asset('landing/js/site.js')}}"></script>
 
+<!-- Dark Mode Toggle Script -->
+<script>
+    $(document).ready(function () {
+        // Function to update all toggle icons across desktop and mobile navs
+        function updateToggleIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const icons = $('.dark-mode-icon');
+            const toggles = $('.dark-mode-toggle');
+            
+            if (isDark) {
+                icons.removeClass('fa-moon-o').addClass('fa-sun-o');
+                toggles.attr('title', 'Switch to Light Mode');
+            } else {
+                icons.removeClass('fa-sun-o').addClass('fa-moon-o');
+                toggles.attr('title', 'Switch to Dark Mode');
+            }
+        }
+
+        // Initialize icons on load
+        updateToggleIcons();
+
+        // Handle click events via event delegation (works for both cloned mobile nav and original nav)
+        $(document).on('click', '.dark-mode-toggle', function (e) {
+            e.preventDefault();
+            
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            updateToggleIcons();
+        });
+    });
+</script>
 
 </body>
 </html>
